@@ -6,100 +6,170 @@
     <title>ಸಹಾಯಕ AI - ಹವಾಮಾನ ಸ್ಥಿತಿಸ್ಥಾಪಕ ಜೀವನೋಪಾಯ ಯೋಜಕ</title>
     <style>
         :root { --primary: #1b5e20; --accent: #ff9800; --bg: #f4f7f4; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #333; }
-        
-        /* Keeping Welcome Page Styles exactly as screenshot */
-        .welcome-hero { background: white; padding: 60px 20px; text-align: center; border-radius: 0 0 40px 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .welcome-hero h1 { color: var(--primary); font-size: 2.5rem; margin-top: 0; }
-        .orange-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(255,152,0,0.3); }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: var(--bg); overflow: hidden; }
 
-        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 0 20px; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 8px solid var(--accent); cursor: pointer; transition: 0.3s; }
+        /* Welcome Page Overlay */
+        #welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 2000; color: white; text-align: center;
+        }
+
+        /* Sidebar */
+        #sidebar { width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; box-shadow: 4px 0 15px rgba(0,0,0,0.2); }
+        .nav-link { padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+        .nav-link.active { background: var(--accent); font-weight: bold; }
+
+        /* AI Avatar Arya */
+        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center; background-size: contain; cursor: pointer; z-index: 3000; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+
+        /* Main Content */
+        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding-bottom: 50px; }
         
-        /* Arya Avatar */
-        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center; background-size: contain; cursor: pointer; z-index: 1000; }
-        .guide-box { background: #f0f7f0; padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary); }
-        .hidden { display: none; }
+        .hero {
+            padding: 60px 20px; text-align: center; color: white;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&w=1600');
+            background-size: cover; background-position: center;
+        }
+
+        .main-btn {
+            background: var(--accent); color: white; border: none; padding: 18px 45px; 
+            border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-top: 15px; transition: 0.3s;
+        }
+
+        /* Grid Cards */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 40px; }
+        .card { 
+            background: white; padding: 30px; border-radius: 20px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 6px solid var(--accent); cursor: pointer; transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card h3 { color: var(--primary); text-align: center; margin-bottom: 10px; }
+
+        /* Details */
+        .detail-header { background: var(--primary); color: white; padding: 40px; text-align: center; position: relative; }
+        .back-btn { position: absolute; left: 20px; top: 40px; background: white; color: var(--primary); border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .guide-box { background: white; margin: 15px 0; padding: 20px; border-radius: 15px; border-left: 5px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <div class="arya-avatar" onclick="speakText('ಹೇಳಿ, ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?')"></div>
-
-    <div id="dashboard-view">
-        <div class="welcome-hero">
-            <h1>ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
-            <p>ಆರ್ಯ ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಕೃಷಿ ಯೋಜಿಸಿ</p>
-            <button class="orange-btn" onclick="getAdvice()">🎤 ಆರ್ಯನೊಡನೆ ಮಾತನಾಡಿ</button>
-        </div>
-
-        <div class="card-container">
-            <div class="card" onclick="showResults('ಹವಾಮಾನ ಮತ್ತು ಮಣ್ಣಿನ ಮಾಹಿತಿ')">
-                <h3>☁️ ಹವಾಮಾನ</h3>
-                <p id="weather-brief">ಉತ್ತರ ಕರ್ನಾಟಕದಲ್ಲಿ ಈ ವಾರ ಒಣ ಹವಾಮಾನವಿರುತ್ತದೆ. ಮಣ್ಣಿನ ತೇವಾಂಶ ಕಾಪಾಡಿಕೊಳ್ಳಿ.</p>
-            </div>
-            <div class="card" onclick="showResults('ಮಣ್ಣಿನ ತೇವಾಂಶ ಸಂರಕ್ಷಣೆ')">
-                <h3>💧 ಮಣ್ಣಿನ ತೇವಾಂಶ</h3>
-                <p>ತೇವಾಂಶ ಸಂರಕ್ಷಣಾ ತಂತ್ರಗಳು.</p>
-            </div>
-            <div class="card" onclick="showResults('ಆದಾಯದ ಮಾರ್ಗಗಳು')">
-                <h3>💰 25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
-                <p id="roi-brief">20 ಮಾರ್ಗಗಳು ಲಭ್ಯವಿವೆ.</p>
-            </div>
-        </div>
+    <div id="welcome-screen">
+        <h1>ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
+        <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
 
-    <div id="results-view" class="hidden" style="padding: 30px;">
-        <button onclick="goHome()" style="background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 10px; cursor: pointer; margin-bottom: 20px;">← ವಾಪಸ್ ಹೋಗಿ</button>
-        <h2 id="section-title" style="color: var(--primary)"></h2>
-        <div id="roi-full"></div>
+    <div class="arya-avatar" onclick="speakText('ಹೇಳಿ, ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?')"></div>
+
+    <nav id="sidebar">
+        <h2 style="padding-left: 15px;">ಸಹಾಯಕ AI</h2>
+        <div class="nav-link" id="nav-dashboard" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <div class="nav-link" id="nav-weather" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" id="nav-roi" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+    </nav>
+
+    <main id="dashboard" class="content-section">
+        <div class="hero">
+            <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ</h1>
+            <button class="main-btn" onclick="getAdvice()">🎤 ಮಾಹಿತಿ ಪಡೆಯಲು ಮಾತನಾಡಿ</button>
+        </div>
+        <div class="card-container">
+            <div class="card" onclick="showSection('weather-page')">
+                <h3>☁️ ಹವಾಮಾನ</h3>
+                <p id="weather-brief">ಮಾಹಿತಿಗಾಗಿ ಆರ್ಯನನ್ನು ಕೇಳಿ...</p>
+            </div>
+            <div class="card" onclick="showSection('roi-page')">
+                <h3>💰 25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
+                <p id="roi-brief">ಸಂಪೂರ್ಣ ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ...</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="weather-page" class="content-section">
+        <div class="detail-header">
+            <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂತಿರುಗಿ</button>
+            <h1>ಹವಾಮಾನ ವರದಿ</h1>
+        </div>
+        <div class="detail-body" id="weather-full" style="padding:40px;">ಮಾಹಿತಿಗಾಗಿ ಮೈಕ್ ಬಳಸಿ.</div>
+    </div>
+
+    <div id="roi-page" class="content-section">
+        <div class="detail-header">
+            <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂತಿರುಗಿ</button>
+            <h1>25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h1>
+        </div>
+        <div class="detail-body" id="roi-full" style="padding:40px;"></div>
     </div>
 
     <script>
-        // 1. AUTO INTRODUCTION: Speaks when website is opened
-        window.onload = () => {
-            setTimeout(() => {
-                speakText("ನಮಸ್ಕಾರ, ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ. ನಾನು ಆರ್ಯ. ನಿಮ್ಮ ಕೃಷಿ ಬದುಕಿಗೆ ಬೇಕಾದ ಎಲ್ಲ ಮಾಹಿತಿ ಇಲ್ಲಿ ಲಭ್ಯವಿದೆ.");
-            }, 1000);
-        };
-
+        // Speech Function
         function speakText(text) {
-            window.speechSynthesis.cancel(); 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'kn-IN';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); 
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'kn-IN';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
-        function goHome() {
-            document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('results-view').classList.add('hidden');
-            speakText("ನೀವು ಈಗ ಮುಖಪುಟದಲ್ಲಿದ್ದೀರಿ.");
+        // Initialize App
+        function startApp() {
+            showSection('dashboard');
+            setTimeout(() => {
+                speakText("ನಮಸ್ಕಾರ, ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ. ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಲಹೆಗಾರ್ತಿ ಆರ್ಯ. ನಿಮಗೆ ಯಾವ ಮಾಹಿತಿ ಬೇಕು?");
+            }, 500);
         }
 
-        async function showResults(title) {
-            document.getElementById('section-title').innerText = title;
-            document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('results-view').classList.remove('hidden');
+        function showSection(id) {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'flex';
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'flex';
             
-            // Speaks natural AI message on click
-            speakText(`ಖಂಡಿತ, ನಾನು ${title} ಬಗ್ಗೆ ವಿವರಗಳನ್ನು ಇಲ್ಲಿ ನೀಡಿದ್ದೇನೆ. ಒಮ್ಮೆ ಗಮನಿಸಿ.`);
-            
-            const res = await fetch('/api/recommend');
-            const data = await res.json();
-            
-            document.getElementById('roi-full').innerHTML = data.options.map(o => `
-                <div class="guide-box">
-                    <b style="color: var(--primary); font-size: 1.2rem;">${o.name}</b><br>
-                    <span>💰 ಲಾಭ: ${o.income}</span><br>
-                    <p style="margin-top:10px;">💡 <b>ವಿವರ:</b> ${o.how}</p>
-                </div>
-            `).join("");
+            // Update Active Nav
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if(id === 'dashboard') document.getElementById('nav-dashboard').classList.add('active');
+            if(id === 'weather-page') {
+                document.getElementById('nav-weather').classList.add('active');
+                speakText("ಖಂಡಿತ, ಹವಾಮಾನದ ವಿವರಗಳನ್ನು ಇಲ್ಲಿ ನೀಡಿದ್ದೇನೆ.");
+            }
+            if(id === 'roi-page') {
+                document.getElementById('nav-roi').classList.add('active');
+                speakText("ಖಂಡಿತ, ಕೃಷಿ ಆದಾಯ ಹೆಚ್ಚಿಸುವ ಮಾರ್ಗಗಳು ಇಲ್ಲಿವೆ.");
+            }
         }
 
-        function getAdvice() {
-            speakText("ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಆದಾಯವನ್ನು ಹೆಚ್ಚಿಸಲು ಕೆಲವು ಉಪಯುಕ್ತ ಕೃಷಿ ಮಾರ್ಗಗಳನ್ನು ನಾನು ಇಲ್ಲಿ ಸಿದ್ಧಪಡಿಸಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ.");
-            showResults('ಆದಾಯದ ಮಾರ್ಗಗಳು');
+        async function getAdvice() {
+            speakText("ಖಂಡಿತ, ನಿಮ್ಮ ಕೃಷಿ ಬದುಕು ಸುಧಾರಿಸಲು ಅಗತ್ಯವಿರುವ ಮಾಹಿತಿಗಳನ್ನು ನಾನು ಸಿದ್ಧಪಡಿಸುತ್ತಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ಪಟ್ಟಿಯನ್ನು ಗಮನಿಸಿ.");
+            
+            try {
+                const res = await fetch('/api/recommend');
+                const data = await res.json();
+                
+                document.getElementById('weather-brief').innerText = data.weather;
+                document.getElementById('roi-brief').innerText = "25ಕ್ಕೂ ಹೆಚ್ಚು ಆದಾಯದ ಮಾರ್ಗಗಳು ಸಿದ್ಧವಿವೆ.";
+                document.getElementById('weather-full').innerHTML = `<div class="guide-box"><h3>ಮುನ್ಸೂಚನೆ:</h3><p>${data.weather}</p></div>`;
+
+                // Fixes "undefined" by mapping to 'o.how'
+                document.getElementById('roi-full').innerHTML = data.options.map(o => `
+                    <div class="guide-box">
+                        <b style="color:var(--primary); font-size:1.2rem;">${o.name}</b><br>
+                        <span>💰 ಲಾಭ: ${o.income}</span><br>
+                        <p style="margin-top:10px;">💡 <b>ವಿವರ:</b> ${o.how}</p>
+                    </div>
+                `).join("");
+
+                showSection('roi-page');
+            } catch (err) {
+                console.error("Error fetching data:", err);
+            }
         }
     </script>
 </body>
