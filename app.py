@@ -35,35 +35,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Data
+# 3. Data (Added Crops Data)
 recommendation_data = {
     "weather": "ಉತ್ತರ ಕರ್ನಾಟಕದಲ್ಲಿ ಈ ವಾರ ಒಣ ಹವಾಮಾನವಿರುತ್ತದೆ. ಮಣ್ಣಿನ ತೇವಾಂಶ ಕಾಪಾಡಲು ಮಲ್ಚಿಂಗ್ ಅಥವಾ ಹನಿ ನೀರಾವರಿ ಬಳಸಿ.",
+    "crops": [
+        {"name": "ಜೋಳ (Sorghum)", "season": "ಹಿಂಗಾರು", "tips": "ಕಡಿಮೆ ನೀರಿನಲ್ಲಿ ಉತ್ತಮ ಇಳುವರಿ ನೀಡುತ್ತದೆ. ಸರಿಯಾದ ಸಮಯದಲ್ಲಿ ಕಳೆ ತೆಗೆಯುವುದು ಮುಖ್ಯ."},
+        {"name": "ತೊಗರಿ (Pigeon Pea)", "season": "ಮುಂಗಾರು", "tips": "ಅಂತರ ಬೆಳೆಯಾಗಿ ಬೆಳೆಯಲು ಸೂಕ್ತ. ರೋಗ ನಿರೋಧಕ ತಳಿಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."},
+        {"name": "ಶೇಂಗಾ (Groundnut)", "season": "ಬೇಸಿಗೆ/ಮುಂಗಾರು", "tips": "ಜಿಪ್ಸಂ ಬಳಕೆಯಿಂದ ಕಾಯಿ ಕಟ್ಟುವಿಕೆ ಹೆಚ್ಚಾಗುತ್ತದೆ."},
+        {"name": "ಸೂರ್ಯಕಾಂತಿ", "season": "ಎಲ್ಲಾ ಹವಾಮಾನ", "tips": "ಜೇನುನೊಣಗಳ ಓಡಾಟ ಹೆಚ್ಚಿದ್ದರೆ ಪರಾಗಸ್ಪರ್ಶ ಚೆನ್ನಾಗಿ ಆಗಿ ಕಾಳು ತುಂಬುತ್ತದೆ."}
+    ],
     "options": [
         {"name": "ಮೇಕೆ ಸಾಕಣೆ", "income": "₹15,000 - ₹40,000 ಲಾಭ", "how": "ಸಣ್ಣ ಪ್ರಮಾಣದಲ್ಲಿ ಆರಂಭಿಸಿ ಹಬ್ಬಗಳ ಸಮಯದಲ್ಲಿ ನೇರ ಮಾರಾಟ ಮಾಡಿ ಉತ್ತಮ ಲಾಭ ಗಳಿಸಿ."},
         {"name": "ಜೋಳದ ಹಿಟ್ಟು ತಯಾರಿ", "income": "ಮೌಲ್ಯವರ್ಧಿತ ಮಾರಾಟ", "how": "ಜೋಳವನ್ನು ಹಿಟ್ಟು ಮಾಡಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ಅಂಗಡಿಗಳಿಗೆ ಪೂರೈಸಿ."},
-        {"name": "ಬೇವಿನ ಎಣ್ಣೆ ತಯಾರಿಕೆ", "income": "₹500/ಲೀಟರ್ ವರೆಗೆ", "how": "ಬೇವಿನ ಬೀಜ ಸಂಗ್ರಹಿಸಿ ಸಣ್ಣ ಗಾಣದ ಮೂಲಕ ಎಣ್ಣೆ ತೆಗೆದು ನೈಸರ್ಗಿಕ ಕೀಟನಾಶಕವಾಗಿ ಮಾರಿ."},
-        {"name": "ಸೇಂದ್ರೀಯ ಗೊಬ್ಬರ", "income": "ತ್ಯಾಜ್ಯದಿಂದ ಆದಾಯ", "how": "ಕೃಷಿ ತ್ಯಾಜ್ಯದಿಂದ ಗೊಬ್ಬರ ಮಾಡಿ ನರ್ಸರಿಗಳಿಗೆ ಮತ್ತು ತೋಟಗಾರರಿಗೆ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ನಾಟಿ ಕೋಳಿ ಸಾಕಣೆ", "income": "ಪ್ರತಿದಿನದ ಆದಾಯ", "how": "ಕೋಳಿ ಸಾಕಿ ಮೊಟ್ಟೆ ಮತ್ತು ಮಾಂಸವನ್ನು ಸ್ಥಳೀಯ ಸಂತೆಗಳಲ್ಲಿ ಮಾರಿ."},
-        {"name": "ಕುರಿ ಉಣ್ಣೆ ಕರಕುಶಲ", "income": "₹2,000 ಪ್ರತಿ ಜೋಡಿ", "how": "ನೇಯ್ಗೆಯ ಮೂಲಕ ಕಂಬಳಿ ಅಥವಾ ಚಾಪೆ ತಯಾರಿಸಿ ಪ್ರದರ್ಶನಗಳಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ರೊಟ್ಟಿ ತಯಾರಿ ಕೇಂದ್ರ", "income": "ತಿಂಗಳಿಗೆ ₹20,000", "how": "ಬಿಸಿ ರೊಟ್ಟಿ ತಯಾರಿಸಿ ಹೋಟೆಲ್, ಮೆಸ್ ಮತ್ತು ಹಾಸ್ಟೆಲ್ ಗಳಿಗೆ ಪೂರೈಸಿ."},
-        {"name": "ಶೇಂಗಾ ಎಣ್ಣೆ ಗಾಣ", "income": "ಶುದ್ಧತೆ ಲಾಭ", "how": "ಕಣ್ಣೆದುರೇ ಎಣ್ಣೆ ತೆಗೆದು ಕೊಟ್ಟು ಗ್ರಾಹಕರಿಂದ ನಂಬಿಕೆ ಮತ್ತು ಹೆಚ್ಚು ದರ ಪಡೆಯಿರಿ."},
-        {"name": "ಹೈನುಗಾರಿಕೆ (Dairy)", "income": "ಮಾಸಿಕ ಹಾಲಿನ ಆದಾಯ", "how": "ಹಾಲಿನ ಡೈರಿಗೆ ಹಾಲು ನೀಡಿ ಹಾಗೂ ಸಗಣಿಯಿಂದ ಜೀವಾಮೃತ ಮಾಡಿ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ಕೃಷಿ ಹೊಂಡದಲ್ಲಿ ಮೀನು", "income": "ಸೀಸನಲ್ ಆದಾಯ", "how": "ನೀರಿನ ಹೊಂಡದಲ್ಲಿ ಅಲ್ಪಾವಧಿ ಮೀನು ಬೆಳೆಸಿ ಸ್ಥಳೀಯ ಹೋಟೆಲ್ ಗಳಿಗೆ ಮಾರುಕಟ್ಟೆ ಮಾಡಿ."},
-        {"name": "ಸೌರ ಪಂಪ್ ಬಾಡಿಗೆ", "income": "ಬಾಡಿಗೆ ದರ", "how": "ನಿಮ್ಮ ಸೌರ ಪಂಪ್ ವ್ಯವಸ್ಥೆಯನ್ನು ನೀರಾವರಿ ಸೌಲಭ್ಯವಿಲ್ಲದ ನೆರೆಯ ರೈತರಿಗೆ ಬಾಡಿಗೆಗೆ ನೀಡಿ."},
-        {"name": "ಔಷಧೀಯ ಸಸ್ಯಗಳ ಬೆಳೆ", "income": "ಒಪ್ಪಂದ ಕೃಷಿ", "how": "ಅಶ್ವಗಂಧ ಅಥವಾ ತುಳಸಿ ಬೆಳೆಸಿ ಆಯುರ್ವೇದ ಫಾರ್ಮಾ ಕಂಪನಿಗಳಿಗೆ ನೇರ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ಕಿರುಧಾನ್ಯ ಲಾಡು", "income": "ಪೌಷ್ಟಿಕ ಆಹಾರ ಲಾಭ", "how": "ಸಿರಿಧಾನ್ಯಗಳಿಂದ ಪೌಷ್ಟಿಕ ಲಡ್ಡು ಮಾಡಿ ಬ್ರಾಂಡೆಡ್ ಉತ್ಪನ್ನವಾಗಿ ಅಂಗಡಿಗಳಿಗೆ ನೀಡಿ."},
-        {"name": "ಬೇವಿನ ಹಿಂಡಿ ಗೊಬ್ಬರ", "income": "ರೈತರಿಗೆ ಮಾರಾಟ", "how": "ಬೇವಿನ ಎಣ್ಣೆ ತೆಗೆದ ನಂತರ ಉಳಿಯುವ ಹಿಂಡಿಯನ್ನು ಉತ್ತಮ ಸಾವಯವ ಗೊಬ್ಬರವಾಗಿ ಮಾರಿ."},
-        {"name": "ಶೇಂಗಾ ಸಿಪ್ಪೆ ಬ್ರಿಕೆಟ್", "income": "ಇಂಧನ ಮೌಲ್ಯ", "how": "ತ್ಯಾಜ್ಯ ಸಿಪ್ಪೆಯನ್ನು ಯಂತ್ರದ ಮೂಲಕ ಇಂಧನ ಕಡ್ಡಿಗಳನ್ನಾಗಿ ಮಾಡಿ ಕಾರ್ಖಾಣೆಗಳಿಗೆ ಪೂರೈಸಿ."},
-        {"name": "ಜೇನು ಸಾಕಣೆ", "income": "ಶುದ್ಧ ಜೇನಿನ ಲಾಭ", "how": "ತೋಟದ ಸುತ್ತ ಜೇನು ಪೆಟ್ಟಿಗೆ ಇಟ್ಟು ಜೇನು ಸಂಗ್ರಹಿಸಿ ಔಷಧೀಯ ರೂಪದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ಸೀತಾಫಲ ಹಣ್ಣಿನ ಪಲ್ಪ್", "income": "ಮೌಲ್ಯವರ್ಧನೆ", "how": "ಸೀಸನಲ್ ಹಣ್ಣಿನ ಗರ್ಭ ಶೈತ್ಯೀಕರಿಸಿ ಐಸ್ ಕ್ರೀಮ್ ತಯಾರಕರಿಗೆ ಸಗಟು ದರದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ಹಟ್ಟಿ ಗೊಬ್ಬರ ಪ್ಯಾಕೇಜಿಂಗ್", "income": "ನಗರದ ಬೇಡಿಕೆ", "how": "ಸಂಸ್ಕರಿಸಿದ ಗೊಬ್ಬರವನ್ನು 5kg ಚೀಲಗಳಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ನರ್ಸರಿಗಳಿಗೆ ನೀಡಿ."},
-        {"name": "ಕೃಷಿ ಪ್ರವಾಸೋದ್ಯಮ", "income": "ವಾರಾಂತ್ಯದ ಆದಾಯ", "how": "ನಗರದ ಜನರಿಗೆ ಹಳ್ಳಿ ಊಟ, ಎತ್ತಿನ ಗಾಡಿ ಸವಾರಿ ಮತ್ತು ತೋಟದ ವೀಕ್ಷಣೆ ಪ್ಯಾಕೇಜ್ ನೀಡಿ."},
-        {"name": "ತೊಗರಿ ಬೇಳೆ ಮಿಲ್ಲಿಂಗ್", "income": "ನೇರ ಮಾರುಕಟ್ಟೆ ಲಾಭ", "how": "ಬೇಳೆ ಮಿಲ್ ಮಾಡಿ ನಿಮ್ಮದೇ ಬ್ರಾಂಡ್ ಹೆಸರಿನಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ಸಗಟು ದರಕ್ಕಿಂತ ಹೆಚ್ಚು ಲಾಭ ಪಡೆಯಿರಿ."},
-        {"name": "ಒಣ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ", "income": "ಮನೆಬಳಕೆಯ ಉತ್ಪನ್ನ", "how": "ಶುದ್ಧ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ ಮಾಡಿ ಚಿಕ್ಕ ಪ್ಯಾಕೆಟ್ ಗಳ ಮೂಲಕ ಸ್ಥಳೀಯವಾಗಿ ಮಾರಿ."},
-        {"name": "ಅಜೋಲ್ಲಾ ಮೇವು ಬೆಳೆ", "income": "ವೆಚ್ಚ ಉಳಿತಾಯ", "how": "ದನಕರುಗಳಿಗೆ ಪೌಷ್ಟಿಕ ಹಸಿರು ಮೇವಾಗಿ ಬಳಸಿ ಹೊರಗಿನ ಆಹಾರದ ವೆಚ್ಚವನ್ನು ಕಡಿತಗೊಳಿಸಿ."},
-        {"name": "ಎರೆಹುಳು ಗೊಬ್ಬರ", "income": "ಪರಿಸರ ಸ್ನೇಹಿ ಲಾಭ", "how": "ವರ್ಮಿಕಾಂಪೋಸ್ಟ್ ಯುನಿಟ್ ಸ್ಥಾಪಿಸಿ ಗೊಬ್ಬರ ಮತ್ತು ಎರೆಹುಳುಗಳನ್ನು ಮಾರಾಟ ಮಾಡಿ."},
-        {"name": "ಸಿರಿಧಾನ್ಯದ ಹಪ್ಪಳ", "income": "ಮನೆಯಿಂದ ಆದಾಯ", "how": "ರಾಗಿ ಅಥವಾ ನವಣೆ ಹಪ್ಪಳ ತಯಾರಿಸಿ ಸೂಪರ್ ಮಾರ್ಕೆಟ್ ಮತ್ತು ಸಂತೆಗಳಲ್ಲಿ ಪೂರೈಸಿ."},
-        {"name": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು (Besan)", "income": "ದೈನಂದಿನ ಮಾರಾಟ", "how": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು ತಯಾರಿಸಿ ಬೇಕರಿ ಮತ್ತು ಬಜ್ಜಿ ಅಂಗಡಿಗಳಿಗೆ ಪ್ರತಿದಿನ ಪೂರೈಸಿ."}
+        {"name": "ಬೇವಿನ ಎಣ್ಣೆ ತಯಾರಿಕೆ", "income": "₹500/ಲೀಟರ್ ವರೆಗೆ", "how": "ಬೇವಿನ ಬೀಜ ಸಂಗ್ರಹಿಸಿ ಸಣ್ಣ ಗಾಣದ ಮೂಲಕ ಎಣ್ಣೆ ತೆಗೆದು ನೈಸರ್ಗಿಕ ಕೀಟನಾಶಕವಾಗಿ ಮಾರಿ."}
     ]
 }
 
@@ -90,7 +74,6 @@ html_code = f"""
             text-align: center; padding: 20px;
         }}
 
-        /* ಈ ಕೆಳಗಿನ ಸ್ಟೈಲ್ ಶೀರ್ಷಿಕೆಯನ್ನು ಒಂದೇ ಸಾಲಿನಲ್ಲಿ ಇರುವಂತೆ ನೋಡಿಕೊಳ್ಳುತ್ತದೆ */
         .welcome-title {{
             font-size: 2.5vw; 
             white-space: nowrap; 
@@ -149,6 +132,7 @@ html_code = f"""
         <h2 style="padding-left:10px; margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
         <div class="nav-link active" id="link-dashboard" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
         <div class="nav-link" id="link-weather" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" id="link-crop" onclick="showSection('crop-page')">🌿 ಬೆಳೆ ಸಲಹೆ</div>
         <div class="nav-link" id="link-roi" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
     </nav>
 
@@ -160,7 +144,7 @@ html_code = f"""
     <main id="dashboard" class="content-section">
         <div class="hero">
             <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಅಥವಾ ಆಯ್ಕೆ ಮಾಡಿ</h1>
-            <button class="main-btn" onclick="getAdvice()">🎤 ಮಾಹಿತಿ ಪಡೆಯಿರಿ</button>
+            <button class="main-btn" onclick="getGeneralAdvice()">🎤 ಮಾಹಿತಿ ಪಡೆಯಿರಿ</button>
         </div>
         <div class="card-container">
             <div class="floating-card" onclick="showSection('weather-page')">
@@ -168,7 +152,12 @@ html_code = f"""
                 <h3>ಹವಾಮಾನ ವರದಿ</h3>
                 <p>ಇಂದಿನ ವಾತಾವರಣದ ಬಗ್ಗೆ ತಿಳಿಯಿರಿ</p>
             </div>
-            <div class="floating-card" onclick="getAdvice()">
+            <div class="floating-card" onclick="showSection('crop-page')">
+                <h2 style="margin:0;">🌿</h2>
+                <h3>ಬೆಳೆ ಸಲಹೆ</h3>
+                <p>ಉತ್ತಮ ಇಳುವರಿಗಾಗಿ ಸಲಹೆಗಳು</p>
+            </div>
+            <div class="floating-card" onclick="showSection('roi-page')">
                 <h2 style="margin:0;">💰</h2>
                 <h3>ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
                 <p>ಹೆಚ್ಚುವರಿ ಲಾಭ ಗಳಿಸುವ ದಾರಿ</p>
@@ -180,6 +169,12 @@ html_code = f"""
         <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
         <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಹವಾಮಾನ ಮಾಹಿತಿ</h1></div>
         <div id="weather-full" style="padding:20px;"></div>
+    </div>
+
+    <div id="crop-page" class="content-section">
+        <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಬೆಳೆ ಸಲಹೆಗಳು</h1></div>
+        <div id="crop-full" style="padding:20px;"></div>
     </div>
 
     <div id="roi-page" class="content-section">
@@ -204,6 +199,7 @@ html_code = f"""
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('sidebar').style.display = 'flex';
             document.getElementById('arya-bot').style.display = 'block';
+            loadDataIntoSections();
             showSection('dashboard');
         }}
 
@@ -212,21 +208,33 @@ html_code = f"""
             document.getElementById(sectionId).style.display = 'flex';
             
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            if(sectionId === 'dashboard') document.getElementById('link-dashboard').classList.add('active');
-            if(sectionId === 'weather-page') document.getElementById('link-weather').classList.add('active');
-            if(sectionId === 'roi-page') document.getElementById('link-roi').classList.add('active');
+            const activeLink = document.getElementById('link-' + sectionId.replace('-page', ''));
+            if(activeLink) activeLink.classList.add('active');
         }}
 
-        function getAdvice() {{
+        function loadDataIntoSections() {{
+            // Load Weather
             document.getElementById('weather-full').innerHTML = `<div class="guide-box">${{appData.weather}}</div>`;
-            const optionsHtml = appData.options.map(o => `
+            
+            // Load Crops
+            document.getElementById('crop-full').innerHTML = appData.crops.map(c => `
+                <div class="guide-box">
+                    <b style="font-size: 1.3rem; color: var(--primary);">${{c.name}}</b> (${{c.season}})<br>
+                    <p>${{c.tips}}</p>
+                </div>
+            `).join("");
+
+            // Load ROI Options
+            document.getElementById('roi-full').innerHTML = appData.options.map(o => `
                 <div class="guide-box">
                     <b style="font-size: 1.2rem; color: var(--primary);">${{o.name}}</b><br>
                     <span>💰 ${{o.income}}</span><br>
                     <p>${{o.how}}</p>
                 </div>
             `).join("");
-            document.getElementById('roi-full').innerHTML = optionsHtml;
+        }}
+
+        function getGeneralAdvice() {{
             showSection('roi-page');
             showBubble("ನಿಮಗಾಗಿ ಹೊಸ ಮಾಹಿತಿ ಸಿದ್ಧವಾಗಿದೆ!");
         }}
