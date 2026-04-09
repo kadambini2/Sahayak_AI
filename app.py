@@ -4,7 +4,11 @@ import json
 import base64
 
 # 1. Page Config
-st.set_page_config(page_title="ಸಹಾಯಕ AI", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="ಸಹಾಯಕ AI", 
+    layout="wide", 
+    initial_sidebar_state="collapsed"
+)
 
 # Function to convert local image to base64
 def get_base64(bin_file):
@@ -16,63 +20,219 @@ def get_base64(bin_file):
         return ""
 
 # Load local images
+welcome_bg = get_base64("image_7.jpg") 
 hero_bg = get_base64("image_825bf8.jpg")
 arya_img = get_base64("chatbot.jpg") 
 
-# Hide Streamlit elements
+# 2. Hide Streamlit UI elements
 st.markdown("""
     <style>
-        #MainMenu, footer, header {visibility: hidden;}
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
         .block-container {padding: 0rem !important;}
+        iframe {border-radius: 0px !important;}
     </style>
 """, unsafe_allow_html=True)
 
-# HTML/CSS Layout
+# 3. Data
+recommendation_data = {
+    "weather": "ಉತ್ತರ ಕರ್ನಾಟಕದಲ್ಲಿ ಈ ವಾರ ಒಣ ಹವಾಮಾನವಿರುತ್ತದೆ. ಮಣ್ಣಿನ ತೇವಾಂಶ ಕಾಪಾಡಲು ಮಲ್ಚಿಂಗ್ ಅಥವಾ ಹನಿ ನೀರಾವರಿ ಬಳಸಿ.",
+    "options": [
+        {"name": "ಮೇಕೆ ಸಾಕಣೆ", "income": "₹15,000 - ₹40,000 ಲಾಭ", "how": "ಸಣ್ಣ ಪ್ರಮಾಣದಲ್ಲಿ ಆರಂಭಿಸಿ ಹಬ್ಬಗಳ ಸಮಯದಲ್ಲಿ ನೇರ ಮಾರಾಟ ಮಾಡಿ ಉತ್ತಮ ಲಾಭ ಗಳಿಸಿ."},
+        {"name": "ಜೋಳದ ಹಿಟ್ಟು ತಯಾರಿ", "income": "ಮೌಲ್ಯವರ್ಧಿತ ಮಾರಾಟ", "how": "ಜೋಳವನ್ನು ಹಿಟ್ಟು ಮಾಡಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ಅಂಗಡಿಗಳಿಗೆ ಪೂರೈಸಿ."},
+        {"name": "ಬೇವಿನ ಎಣ್ಣೆ ತಯಾರಿಕೆ", "income": "₹500/ಲೀಟರ್ ವರೆಗೆ", "how": "ಬೇವಿನ ಬೀಜ ಸಂಗ್ರಹಿಸಿ ಸಣ್ಣ ಗಾಣದ ಮೂಲಕ ಎಣ್ಣೆ ತೆಗೆದು ನೈಸರ್ಗಿಕ ಕೀಟನಾಶಕವಾಗಿ ಮಾರಿ."},
+        {"name": "ಸೇಂದ್ರೀಯ ಗೊಬ್ಬರ", "income": "ತ್ಯಾಜ್ಯದಿಂದ ಆದಾಯ", "how": "ಕೃಷಿ ತ್ಯಾಜ್ಯದಿಂದ ಗೊಬ್ಬರ ಮಾಡಿ ನರ್ಸರಿಗಳಿಗೆ ಮತ್ತು ತೋಟಗಾರರಿಗೆ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ನಾಟಿ ಕೋಳಿ ಸಾಕಣೆ", "income": "ಪ್ರತಿದಿನದ ಆದಾಯ", "how": "ಕೋಳಿ ಸಾಕಿ ಮೊಟ್ಟೆ ಮತ್ತು ಮಾಂಸವನ್ನು ಸ್ಥಳೀಯ ಸಂತೆಗಳಲ್ಲಿ ಮಾರಿ."},
+        {"name": "ಕುರಿ ಉಣ್ಣೆ ಕರಕುಶಲ", "income": "₹2,000 ಪ್ರತಿ ಜೋಡಿ", "how": "ನೇಯ್ಗೆಯ ಮೂಲಕ ಕಂಬಳಿ ಅಥವಾ ಚಾಪೆ ತಯಾರಿಸಿ ಪ್ರದರ್ಶನಗಳಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ರೊಟ್ಟಿ ತಯಾರಿ ಕೇಂದ್ರ", "income": "ತಿಂಗಳಿಗೆ ₹20,000", "how": "ಬಿಸಿ ರೊಟ್ಟಿ ತಯಾರಿಸಿ ಹೋಟೆಲ್, ಮೆಸ್ ಮತ್ತು ಹಾಸ್ಟೆಲ್ ಗಳಿಗೆ ಪೂರೈಸಿ."},
+        {"name": "ಶೇಂಗಾ ಎಣ್ಣೆ ಗಾಣ", "income": "ಶುದ್ಧತೆ ಲಾಭ", "how": "ಕಣ್ಣೆದುರೇ ಎಣ್ಣೆ ತೆಗೆದು ಕೊಟ್ಟು ಗ್ರಾಹಕರಿಂದ ನಂಬಿಕೆ ಮತ್ತು ಹೆಚ್ಚು ದರ ಪಡೆಯಿರಿ."},
+        {"name": "ಹೈನುಗಾರಿಕೆ (Dairy)", "income": "ಮಾಸಿಕ ಹಾಲಿನ ಆದಾಯ", "how": "ಹಾಲಿನ ಡೈರಿಗೆ ಹಾಲು ನೀಡಿ ಹಾಗೂ ಸಗಣಿಯಿಂದ ಜೀವಾಮೃತ ಮಾಡಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಕೃಷಿ ಹೊಂಡದಲ್ಲಿ ಮೀನು", "income": "ಸೀಸನಲ್ ಆದಾಯ", "how": "ನೀರಿನ ಹೊಂಡದಲ್ಲಿ ಅಲ್ಪಾವಧಿ ಮೀನು ಬೆಳೆಸಿ ಸ್ಥಳೀಯ ಹೋಟೆಲ್ ಗಳಿಗೆ ಮಾರುಕಟ್ಟೆ ಮಾಡಿ."},
+        {"name": "ಸೌರ ಪಂಪ್ ಬಾಡಿಗೆ", "income": "ಬಾಡಿಗೆ ದರ", "how": "ನಿಮ್ಮ ಸೌರ ಪಂಪ್ ವ್ಯವಸ್ಥೆಯನ್ನು ನೀರಾವರಿ ಸೌಲಭ್ಯವಿಲ್ಲದ ನೆರೆಯ ರೈತರಿಗೆ ಬಾಡಿಗೆಗೆ ನೀಡಿ."},
+        {"name": "ಔಷಧೀಯ ಸಸ್ಯಗಳ ಬೆಳೆ", "income": "ಒಪ್ಪಂದ ಕೃಷಿ", "how": "ಅಶ್ವಗಂಧ ಅಥವಾ ತುಳಸಿ ಬೆಳೆಸಿ ಆಯುರ್ವೇದ ಫಾರ್ಮಾ ಕಂಪನಿಗಳಿಗೆ ನೇರ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಕಿರುಧಾನ್ಯ ಲಾಡು", "income": "ಪೌಷ್ಟಿಕ ಆಹಾರ ಲಾಭ", "how": "ಸಿರಿಧಾನ್ಯಗಳಿಂದ ಪೌಷ್ಟಿಕ ಲಡ್ಡು ಮಾಡಿ ಬ್ರಾಂಡೆಡ್ ಉತ್ಪನ್ನವಾಗಿ ಅಂಗಡಿಗಳಿಗೆ ನೀಡಿ."},
+        {"name": "ಬೇವಿನ ಹಿಂಡಿ ಗೊಬ್ಬರ", "income": "ರೈತರಿಗೆ ಮಾರಾಟ", "how": "ಬೇವಿನ ಎಣ್ಣೆ ತೆಗೆದ ನಂತರ ಉಳಿಯುವ ಹಿಂಡಿಯನ್ನು ಉತ್ತಮ ಸಾವಯವ ಗೊಬ್ಬರವಾಗಿ ಮಾರಿ."},
+        {"name": "ಶೇಂಗಾ ಸಿಪ್ಪೆ ಬ್ರಿಕೆಟ್", "income": "ಇಂಧನ ಮೌಲ್ಯ", "how": "ತ್ಯಾಜ್ಯ ಸಿಪ್ಪೆಯನ್ನು ಯಂತ್ರದ ಮೂಲಕ ಇಂಧನ ಕಡ್ಡಿಗಳನ್ನಾಗಿ ಮಾಡಿ ಕಾರ್ಖಾಣೆಗಳಿಗೆ ಪೂರೈಸಿ."},
+        {"name": "ಜೇನು ಸಾಕಣೆ", "income": "ಶುದ್ಧ ಜೇನಿನ ಲಾಭ", "how": "ತೋಟದ ಸುತ್ತ ಜೇನು ಪೆಟ್ಟಿಗೆ ಇಟ್ಟು ಜೇನು ಸಂಗ್ರಹಿಸಿ ಔಷಧೀಯ ರೂಪದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಸೀತಾಫಲ ಹಣ್ಣಿನ ಪಲ್ಪ್", "income": "ಮೌಲ್ಯವರ್ಧನೆ", "how": "ಸೀಸನಲ್ ಹಣ್ಣಿನ ಗರ್ಭ ಶೈತ್ಯೀಕರಿಸಿ ಐಸ್ ಕ್ರೀಮ್ ತಯಾರಕರಿಗೆ ಸಗಟು ದರದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಹಟ್ಟಿ ಗೊಬ್ಬರ ಪ್ಯಾಕೇಜಿಂಗ್", "income": "ನಗರದ ಬೇಡಿಕೆ", "how": "ಸಂಸ್ಕರಿಸಿದ ಗೊಬ್ಬರವನ್ನು 5kg ಚೀಲಗಳಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ನರ್ಸರಿಗಳಿಗೆ ನೀಡಿ."},
+        {"name": "ಕೃಷಿ ಪ್ರವಾಸೋದ್ಯಮ", "income": "ವಾರಾಂತ್ಯದ ಆದಾಯ", "how": "ನಗರದ ಜನರಿಗೆ ಹಳ್ಳಿ ಊಟ, ಎತ್ತಿನ ಗಾಡಿ ಸವಾರಿ ಮತ್ತು ತೋಟದ ವೀಕ್ಷಣೆ ಪ್ಯಾಕೇಜ್ ನೀಡಿ."},
+        {"name": "ತೊಗರಿ ಬೇಳೆ ಮಿಲ್ಲಿಂಗ್", "income": "ನೇರ ಮಾರುಕಟ್ಟೆ ಲಾಭ", "how": "ಬೇಳೆ ಮಿಲ್ ಮಾಡಿ ನಿಮ್ಮದೇ ಬ್ರಾಂಡ್ ಹೆಸರಿನಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ಸಗಟು ದರಕ್ಕಿಂತ ಹೆಚ್ಚು ಲಾಭ ಪಡೆಯಿರಿ."},
+        {"name": "ಒಣ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ", "income": "ಮನೆಬಳಕೆಯ ಉತ್ಪನ್ನ", "how": "ಶುದ್ಧ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ ಮಾಡಿ ಚಿಕ್ಕ ಪ್ಯಾಕೆಟ್ ಗಳ ಮೂಲಕ ಸ್ಥಳೀಯವಾಗಿ ಮಾರಿ."},
+        {"name": "ಅಜೋಲ್ಲಾ ಮೇವು ಬೆಳೆ", "income": "ವೆಚ್ಚ ಉಳಿತಾಯ", "how": "ದನಕರುಗಳಿಗೆ ಪೌಷ್ಟಿಕ ಹಸಿರು ಮೇವಾಗಿ ಬಳಸಿ ಹೊರಗಿನ ಆಹಾರದ ವೆಚ್ಚವನ್ನು ಕಡಿತಗೊಳಿಸಿ."},
+        {"name": "ಎರೆಹುಳು ಗೊಬ್ಬರ", "income": "ಪರಿಸರ ಸ್ನೇಹಿ ಲಾಭ", "how": "ವರ್ಮಿಕಾಂಪೋಸ್ಟ್ ಯುನಿಟ್ ಸ್ಥಾಪಿಸಿ ಗೊಬ್ಬರ ಮತ್ತು ಎರೆಹುಳುಗಳನ್ನು ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಸಿರಿಧಾನ್ಯದ ಹಪ್ಪಳ", "income": "ಮನೆಯಿಂದ ಆದಾಯ", "how": "ರಾಗಿ ಅಥವಾ ನವಣೆ ಹಪ್ಪಳ ತಯಾರಿಸಿ ಸೂಪರ್ ಮಾರ್ಕೆಟ್ ಮತ್ತು ಸಂತೆಗಳಲ್ಲಿ ಪೂರೈಸಿ."},
+        {"name": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು (Besan)", "income": "ದೈನಂದಿನ ಮಾರಾಟ", "how": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು ತಯಾರಿಸಿ ಬೇಕರಿ ಮತ್ತು ಬಜ್ಜಿ ಅಂಗಡಿಗಳಿಗೆ ಪ್ರತಿದಿನ ಪೂರೈಸಿ."}
+    ]
+}
+
+json_data = json.dumps(recommendation_data)
+
+# 4. Integrated HTML/CSS/JS
 html_code = f"""
 <!DOCTYPE html>
 <html lang="kn">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {{ margin: 0; font-family: sans-serif; display: flex; height: 100vh; background: #f4f4f4; }}
+        :root {{ --primary: #1b5e20; --accent: #ff9800; --bg: #f4f7f4; --text-dark: #333; }}
+        * {{ box-sizing: border-box; }}
+        body {{ margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; width: 100vw; background: var(--bg); overflow: hidden; }}
+
+        #welcome-screen {{
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
+                        url('data:image/jpeg;base64,{welcome_bg}');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; color: white;
+            text-align: center; padding: 20px;
+        }}
+
+        /* ಈ ಕೆಳಗಿನ ಸ್ಟೈಲ್ ಶೀರ್ಷಿಕೆಯನ್ನು ಒಂದೇ ಸಾಲಿನಲ್ಲಿ ಇರುವಂತೆ ನೋಡಿಕೊಳ್ಳುತ್ತದೆ */
+        .welcome-title {{
+            font-size: 2.5vw; 
+            white-space: nowrap; 
+            margin: 0;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            width: 95%;
+        }}
+
+        #sidebar {{ width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; }}
+        .nav-link {{ padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: white; text-decoration: none; transition: 0.3s; }}
+        .nav-link.active {{ background: var(--accent); font-weight: bold; }}
+
+        .content-section {{ flex: 1; display: none; flex-direction: column; overflow-y: auto; width: 100%; }}
         
-        /* Sidebar */
-        #sidebar {{ width: 250px; background: #1b5e20; color: white; padding: 20px; display: flex; flex-direction: column; }}
-        .nav-link {{ padding: 15px; margin: 10px 0; background: #ff9800; border-radius: 5px; cursor: pointer; font-weight: bold; }}
-        .nav-item {{ padding: 10px; cursor: pointer; }}
+        .hero {{ 
+            padding: 80px 20px; text-align: center; color: white;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/jpeg;base64,{hero_bg}');
+            background-size: cover; background-position: center;
+        }}
+
+        .main-btn {{ background: var(--accent); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }}
         
-        /* Main Content */
-        #main {{ flex: 1; padding: 20px; }}
-        .hero {{ background: url('data:image/jpeg;base64,{hero_bg}'); background-size: cover; padding: 50px; text-align: center; color: white; border-radius: 10px; }}
-        .main-btn {{ background: #ff9800; border: none; padding: 15px 30px; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; }}
+        .card-container {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 40px; }}
+        .floating-card {{ 
+            background: white; padding: 25px; border-radius: 15px; text-align: center; 
+            cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            border-top: 5px solid var(--accent); transition: 0.3s; 
+        }}
+        .floating-card:hover {{ transform: translateY(-10px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }}
+
+        .back-btn {{ 
+            background: white; color: var(--primary); border: 2px solid var(--primary); 
+            padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; 
+            margin: 20px; align-self: flex-start; transition: 0.3s;
+        }}
+
+        .arya-avatar {{ position: fixed; bottom: 30px; right: 30px; width: 110px; display: none; z-index: 3000; cursor: pointer; }}
+        .arya-avatar img {{ width: 100%; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4)); border-radius: 50%; border: 3px solid white; }}
         
-        /* Cards */
-        .card-container {{ display: flex; gap: 20px; margin-top: 30px; }}
-        .card {{ background: white; padding: 20px; border-radius: 10px; flex: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }}
+        #arya-chat-box {{ position: fixed; bottom: 150px; right: 35px; background: white; padding: 18px; border-radius: 15px; display: none; width: 260px; z-index: 3001; color: #333; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }}
+
+        .guide-box {{ background: white; margin: 15px 40px; padding: 25px; border-radius: 15px; border-left: 8px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }}
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <h2>ಸಹಾಯಕ AI</h2>
-        <div class="nav-link">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <div class="nav-item">☁️ ಹವಾಮಾನ</div>
-        <div class="nav-item">🌿 ಬೆಳೆ ಸಲಹೆ</div>
-        <div class="nav-item">💰 20+ ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+
+    <div id="welcome-screen">
+        <h1 class="welcome-title">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
+        <p style="font-size: 1.4rem; margin-top: 15px; margin-bottom: 35px; opacity: 0.9;">ಕೃಷಿ ಮತ್ತು ಜೀವನೋಪಾಯದ ಸಮಗ್ರ ಸಲಹೆಗಾರ</p>
+        <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
-    
-    <div id="main">
+
+    <nav id="sidebar">
+        <h2 style="padding-left:10px; margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
+        <div class="nav-link active" id="link-dashboard" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <div class="nav-link" id="link-weather" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" id="link-roi" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+    </nav>
+
+    <div id="arya-chat-box"></div>
+    <div id="arya-bot" class="arya-avatar" onclick="aryaGreet()">
+        <img src="data:image/jpeg;base64,{arya_img}" alt="Arya AI">
+    </div>
+
+    <main id="dashboard" class="content-section">
         <div class="hero">
-            <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ</h1>
-            <button class="main-btn">🎤 ಮಾಹಿತಿ ಪಡೆಯಲು ಮಾತನಾಡಿ</button>
+            <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಅಥವಾ ಆಯ್ಕೆ ಮಾಡಿ</h1>
+            <button class="main-btn" onclick="getAdvice()">🎤 ಮಾಹಿತಿ ಪಡೆಯಿರಿ</button>
         </div>
-        
         <div class="card-container">
-            <div class="card"><h3>☁️ ಹವಾಮಾನ</h3><p>ಮಾಹಿತಿಗಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ...</p></div>
-            <div class="card"><h3>🌿 ಬೆಳೆ ಸಲಹೆ</h3><p>ನಿಮ್ಮ ಭೂಮಿಗೆ ಒಪ್ಪುವ ಬೆಳೆಗಳ ಪಟ್ಟಿ...</p></div>
-            <div class="card"><h3>💰 20+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3><p>ಸಂಪೂರ್ಣ ಸಂಪನ್ಮೂಲ ಬಳಕೆ ವಿವರ...</p></div>
+            <div class="floating-card" onclick="showSection('weather-page')">
+                <h2 style="margin:0;">☁️</h2>
+                <h3>ಹವಾಮಾನ ವರದಿ</h3>
+                <p>ಇಂದಿನ ವಾತಾವರಣದ ಬಗ್ಗೆ ತಿಳಿಯಿರಿ</p>
+            </div>
+            <div class="floating-card" onclick="getAdvice()">
+                <h2 style="margin:0;">💰</h2>
+                <h3>ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
+                <p>ಹೆಚ್ಚುವರಿ ಲಾಭ ಗಳಿಸುವ ದಾರಿ</p>
+            </div>
         </div>
+    </main>
+
+    <div id="weather-page" class="content-section">
+        <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಹವಾಮಾನ ಮಾಹಿತಿ</h1></div>
+        <div id="weather-full" style="padding:20px;"></div>
     </div>
+
+    <div id="roi-page" class="content-section">
+        <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಜೀವನೋಪಾಯದ ಮಾರ್ಗಗಳು</h1></div>
+        <div id="roi-full" style="padding:20px;"></div>
+    </div>
+
+    <script>
+        const appData = {json_data};
+
+        function showBubble(text) {{
+            const box = document.getElementById('arya-chat-box');
+            box.innerText = text;
+            box.style.display = 'block';
+            setTimeout(() => {{ box.style.display = 'none'; }}, 4000);
+        }}
+
+        function aryaGreet() {{ showBubble("ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ."); }}
+
+        function startApp() {{
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'flex';
+            document.getElementById('arya-bot').style.display = 'block';
+            showSection('dashboard');
+        }}
+
+        function showSection(sectionId) {{
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'flex';
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if(sectionId === 'dashboard') document.getElementById('link-dashboard').classList.add('active');
+            if(sectionId === 'weather-page') document.getElementById('link-weather').classList.add('active');
+            if(sectionId === 'roi-page') document.getElementById('link-roi').classList.add('active');
+        }}
+
+        function getAdvice() {{
+            document.getElementById('weather-full').innerHTML = `<div class="guide-box">${{appData.weather}}</div>`;
+            const optionsHtml = appData.options.map(o => `
+                <div class="guide-box">
+                    <b style="font-size: 1.2rem; color: var(--primary);">${{o.name}}</b><br>
+                    <span>💰 ${{o.income}}</span><br>
+                    <p>${{o.how}}</p>
+                </div>
+            `).join("");
+            document.getElementById('roi-full').innerHTML = optionsHtml;
+            showSection('roi-page');
+            showBubble("ನಿಮಗಾಗಿ ಹೊಸ ಮಾಹಿತಿ ಸಿದ್ಧವಾಗಿದೆ!");
+        }}
+    </script>
 </body>
 </html>
 """
 
-components.html(html_code, height=800)
+components.html(html_code, height=1000, scrolling=True)
