@@ -12,7 +12,7 @@
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://raw.githubusercontent.com/Alien-Paratext/Sahayak_AI/main/image_9.png');
+                        url('https://raw.githubusercontent.com/Alien-Paratext/Sahayak_AI/main/image_825efe.jpg');
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center;
             align-items: center; z-index: 2000; color: white;
@@ -31,22 +31,23 @@
         .hero { 
             padding: 80px 20px; text-align: center; color: white;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://raw.githubusercontent.com/Alien-Paratext/Sahayak_AI/main/image_8.png');
+                        url('https://raw.githubusercontent.com/Alien-Paratext/Sahayak_AI/main/image_825bf8.jpg');
             background-size: cover; background-position: center;
         }
 
         .main-btn { background: var(--accent); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-top: 15px; }
         .main-btn:hover { background: #e68a00; }
 
-        /* Horizontal 3-Box Grid */
+        /* Grid */
         .card-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 40px; }
         .card { background: white; padding: 25px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 6px solid var(--accent); transition: 0.3s; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 
-        /* Clean Floating Arya (No circle, text-only) */
-        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 85px; height: 85px; background: white; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; z-index: 3000; cursor: pointer; }
-        .arya-avatar img { width: 100%; }
-        #arya-chat-box { position: fixed; bottom: 115px; right: 25px; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; width: 240px; z-index: 3001; line-height: 1.6; }
+        /* Clean Floating Arya (Circle styling removed as requested) */
+        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 95px; display: none; z-index: 3000; cursor: pointer; }
+        .arya-avatar img { width: 100%; border-radius: 0; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+        
+        #arya-chat-box { position: fixed; bottom: 125px; right: 25px; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; width: 240px; z-index: 3001; line-height: 1.6; }
 
         .guide-box { background: white; margin-bottom: 15px; padding: 25px; border-radius: 15px; border-left: 6px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     </style>
@@ -96,7 +97,16 @@
             <h1>ಬೆಳೆ ಸಲಹೆ ಮತ್ತು ತಂತ್ರಗಳು</h1>
             <button onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')" style="float:left; background:white; color:var(--primary); border:none; padding:10px; border-radius:5px; cursor:pointer;">← ಹಿಂದೆ ಹೋಗಿ</button>
         </div>
-        <div style="padding:40px;">ನಿಮ್ಮ ಮಣ್ಣಿಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆಗಳ ಪಟ್ಟಿ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ. ಹವಾಮಾನ ಮತ್ತು ಆದಾಯದ ಬಗ್ಗೆ ಮಾಹಿತಿಯನ್ನು ಪಡೆಯಲು ಮೈಕ್ ಬಟನ್ ಬಳಸಿ.</div>
+        <div style="padding:40px;">
+            <div class="guide-box">
+                <h3>🌱 ಮಣ್ಣಿನ ಸುಸ್ಥಿರತೆ ಮತ್ತು ಫಲವತ್ತತೆ</h3>
+                <p>ನಮ್ಮ ತಜ್ಞರ ಪ್ರಕಾರ, ಮಣ್ಣಿನ ಫಲವತ್ತತೆ ಹೆಚ್ಚಿಸಲು ಸಾವಯವ ಗೊಬ್ಬರ ಮತ್ತು ಬೆಳೆ ಪರ್ಯಾಯ ಪದ್ಧತಿಯನ್ನು ಅನುಸರಿಸುವುದು ಬಹಳ ಮುಖ್ಯ. ನಿಮ್ಮ ಪ್ರದೇಶದ ಮಣ್ಣಿನ ಗುಣಲಕ್ಷಣಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಬೆಳೆಗಳನ್ನು ಆರಿಸಲು ಆರ್ಯನ ಸಹಾಯ ಪಡೆಯಿರಿ.</p>
+            </div>
+            <div class="guide-box">
+                <h3>💧 ಸ್ಮಾರ್ಟ್ ನೀರಾವರಿ ಪದ್ಧತಿ</h3>
+                <p>ಕಡಿಮೆ ನೀರಿನಲ್ಲಿ ಹೆಚ್ಚು ಇಳುವರಿ ಪಡೆಯಲು ಹನಿ ನೀರಾವರಿ (Drip Irrigation) ಉತ್ತಮ ಆಯ್ಕೆ. ಮಣ್ಣಿನ ತೇವಾಂಶವನ್ನು ಗಮನಿಸಿ ನೀರು ಉಣಿಸುವ ಮೂಲಕ ಬೆಳೆಗಳ ಆರೋಗ್ಯ ಸುಧಾರಿಸಬಹುದು.</p>
+            </div>
+        </div>
     </div>
 
     <div id="roi-page" class="content-section">
@@ -104,11 +114,15 @@
             <h1>20+ ಆದಾಯ ಮಾರ್ಗಗಳು</h1>
             <button onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')" style="float:left; background:white; color:var(--primary); border:none; padding:10px; border-radius:5px; cursor:pointer;">← ಹಿಂದೆ ಹೋಗಿ</button>
         </div>
-        <div id="roi-full" style="padding:40px;">ಮಾಹಿತಿಗಾಗಿ ಮೈಕ್ ಬಟನ್ ಬಳಸಿ.</div>
+        <div id="roi-full" style="padding:40px;">
+            <div class="guide-box">
+                <h3>💰 ಜೀವನೋಪಾಯದ ವೈವಿಧ್ಯೀಕರಣ</h3>
+                <p>ಕೇವಲ ಕೃಷಿಯ ಮೇಲೆ ಅವಲಂಬಿತವಾಗದೆ, ಉಪ-ಕಸುಬುಗಳ ಮೂಲಕ ಸ್ಥಿರವಾದ ಆದಾಯವನ್ನು ಗಳಿಸಬಹುದು. ಆರ್ಯ ನಿಮಗಾಗಿ 25ಕ್ಕೂ ಹೆಚ್ಚು ಲಾಭದಾಯಕ ಮಾರ್ಗಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಿದ್ದಾರೆ.</p>
+            </div>
+            </div>
     </div>
 
     <script>
-        // Arya text-only interaction
         function showBubble(text, duration = 4000) {
             const box = document.getElementById('arya-chat-box');
             box.innerText = text;
@@ -126,14 +140,9 @@
             showBubble("ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ!");
         }
 
-        // Logic to switch between pages
         function showSection(sectionId, navText) {
-            // Hide all pages
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-            // Show target page
             document.getElementById(sectionId).style.display = 'flex';
-            
-            // Update Sidebar colors
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
                 if (link.innerText.includes(navText)) link.classList.add('active');
@@ -145,9 +154,10 @@
             const res = await fetch('/api/recommend');
             const data = await res.json();
             
-            // Fill pages with expanded content
             document.getElementById('weather-full').innerHTML = `<div class="guide-box">${data.weather}</div>`;
-            document.getElementById('roi-full').innerHTML = data.options.map(o => `
+            
+            // Appending API results to existing expanded content
+            const optionsHtml = data.options.map(o => `
                 <div class="guide-box">
                     <b style="color:var(--primary); font-size:1.1rem;">${o.name}</b><br>
                     <span>💰 ${o.income}</span><br>
@@ -155,7 +165,8 @@
                 </div>
             `).join("");
 
-            // Navigate to Livelihood options page, as requested by button logic
+            document.getElementById('roi-full').innerHTML += optionsHtml;
+
             showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು');
             showBubble("ನಿಮಗಾಗಿ ವಿವರವಾದ ಪಟ್ಟಿ ಸಿದ್ಧವಾಗಿದೆ.");
         }
