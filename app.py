@@ -19,7 +19,7 @@ def get_base64(bin_file):
     except FileNotFoundError:
         return ""
 
-# Load local images - Updated chatbot.jpg here
+# Load local images
 welcome_bg = get_base64("image_7.jpg") 
 hero_bg = get_base64("image_825bf8.jpg")
 arya_img = get_base64("chatbot.jpg") 
@@ -42,13 +42,34 @@ recommendation_data = {
         {"name": "ಮೇಕೆ ಸಾಕಣೆ", "income": "₹15,000 - ₹40,000 ಲಾಭ", "how": "ಸಣ್ಣ ಪ್ರಮಾಣದಲ್ಲಿ ಆರಂಭಿಸಿ ಹಬ್ಬಗಳ ಸಮಯದಲ್ಲಿ ನೇರ ಮಾರಾಟ ಮಾಡಿ ಉತ್ತಮ ಲಾಭ ಗಳಿಸಿ."},
         {"name": "ಜೋಳದ ಹಿಟ್ಟು ತಯಾರಿ", "income": "ಮೌಲ್ಯವರ್ಧಿತ ಮಾರಾಟ", "how": "ಜೋಳವನ್ನು ಹಿಟ್ಟು ಮಾಡಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ಅಂಗಡಿಗಳಿಗೆ ಪೂರೈಸಿ."},
         {"name": "ಬೇವಿನ ಎಣ್ಣೆ ತಯಾರಿಕೆ", "income": "₹500/ಲೀಟರ್ ವರೆಗೆ", "how": "ಬೇವಿನ ಬೀಜ ಸಂಗ್ರಹಿಸಿ ಸಣ್ಣ ಗಾಣದ ಮೂಲಕ ಎಣ್ಣೆ ತೆಗೆದು ನೈಸರ್ಗಿಕ ಕೀಟನಾಶಕವಾಗಿ ಮಾರಿ."},
-        {"name": "ಸೇಂದ್ರೀಯ ಗೊಬ್ಬರ", "income": "ತ್ಯಾಜ್ಯದಿಂದ ಆದಾಯ", "how": "ಕೃಷಿ ತ್ಯಾಜ್ಯದಿಂದ ಗೊಬ್ಬರ ಮಾಡಿ ನರ್ಸರಿಗಳಿಗೆ ಮತ್ತು ತೋಟಗಾರರಿಗೆ ಮಾರಾಟ ಮಾಡಿ."}
+        {"name": "ಸೇಂದ್ರೀಯ ಗೊಬ್ಬರ", "income": "ತ್ಯಾಜ್ಯದಿಂದ ಆದಾಯ", "how": "ಕೃಷಿ ತ್ಯಾಜ್ಯದಿಂದ ಗೊಬ್ಬರ ಮಾಡಿ ನರ್ಸರಿಗಳಿಗೆ ಮತ್ತು ತೋಟಗಾರರಿಗೆ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ನಾಟಿ ಕೋಳಿ ಸಾಕಣೆ", "income": "ಪ್ರತಿದಿನದ ಆದಾಯ", "how": "ಕೋಳಿ ಸಾಕಿ ಮೊಟ್ಟೆ ಮತ್ತು ಮಾಂಸವನ್ನು ಸ್ಥಳೀಯ ಸಂತೆಗಳಲ್ಲಿ ಮಾರಿ."},
+        {"name": "ಕುರಿ ಉಣ್ಣೆ ಕರಕುಶಲ", "income": "₹2,000 ಪ್ರತಿ ಜೋಡಿ", "how": "ನೇಯ್ಗೆಯ ಮೂಲಕ ಕಂಬಳಿ ಅಥವಾ ಚಾಪೆ ತಯಾರಿಸಿ ಪ್ರದರ್ಶನಗಳಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ರೊಟ್ಟಿ ತಯಾರಿ ಕೇಂದ್ರ", "income": "ತಿಂಗಳಿಗೆ ₹20,000", "how": "ಬಿಸಿ ರೊಟ್ಟಿ ತಯಾರಿಸಿ ಹೋಟೆಲ್, ಮೆಸ್ ಮತ್ತು ಹಾಸ್ಟೆಲ್ ಗಳಿಗೆ ಪೂರೈಸಿ."},
+        {"name": "ಶೇಂಗಾ ಎಣ್ಣೆ ಗಾಣ", "income": "ಶುದ್ಧತೆ ಲಾಭ", "how": "ಕಣ್ಣೆದುರೇ ಎಣ್ಣೆ ತೆಗೆದು ಕೊಟ್ಟು ಗ್ರಾಹಕರಿಂದ ನಂಬಿಕೆ ಮತ್ತು ಹೆಚ್ಚು ದರ ಪಡೆಯಿರಿ."},
+        {"name": "ಹೈನುಗಾರಿಕೆ (Dairy)", "income": "ಮಾಸಿಕ ಹಾಲಿನ ಆದಾಯ", "how": "ಹಾಲಿನ ಡೈರಿಗೆ ಹಾಲು ನೀಡಿ ಹಾಗೂ ಸಗಣಿಯಿಂದ ಜೀವಾಮೃತ ಮಾಡಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಕೃಷಿ ಹೊಂಡದಲ್ಲಿ ಮೀನು", "income": "ಸೀಸನಲ್ ಆದಾಯ", "how": "ನೀರಿನ ಹೊಂಡದಲ್ಲಿ ಅಲ್ಪಾವಧಿ ಮೀನು ಬೆಳೆಸಿ ಸ್ಥಳೀಯ ಹೋಟೆಲ್ ಗಳಿಗೆ ಮಾರುಕಟ್ಟೆ ಮಾಡಿ."},
+        {"name": "ಸೌರ ಪಂಪ್ ಬಾಡಿಗೆ", "income": "ಬಾಡಿಗೆ ದರ", "how": "ನಿಮ್ಮ ಸೌರ ಪಂಪ್ ವ್ಯವಸ್ಥೆಯನ್ನು ನೀರಾವರಿ ಸೌಲಭ್ಯವಿಲ್ಲದ ನೆರೆಯ ರೈತರಿಗೆ ಬಾಡಿಗೆಗೆ ನೀಡಿ."},
+        {"name": "ಔಷಧೀಯ ಸಸ್ಯಗಳ ಬೆಳೆ", "income": "ಒಪ್ಪಂದ ಕೃಷಿ", "how": "ಅಶ್ವಗಂಧ ಅಥವಾ ತುಳಸಿ ಬೆಳೆಸಿ ಆಯುರ್ವೇದ ಫಾರ್ಮಾ ಕಂಪನಿಗಳಿಗೆ ನೇರ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಕಿರುಧಾನ್ಯ ಲಾಡು", "income": "ಪೌಷ್ಟಿಕ ಆಹಾರ ಲಾಭ", "how": "ಸಿರಿಧಾನ್ಯಗಳಿಂದ ಪೌಷ್ಟಿಕ ಲಡ್ಡು ಮಾಡಿ ಬ್ರಾಂಡೆಡ್ ಉತ್ಪನ್ನವಾಗಿ ಅಂಗಡಿಗಳಿಗೆ ನೀಡಿ."},
+        {"name": "ಬೇವಿನ ಹಿಂಡಿ ಗೊಬ್ಬರ", "income": "ರೈತರಿಗೆ ಮಾರಾಟ", "how": "ಬೇವಿನ ಎಣ್ಣೆ ತೆಗೆದ ನಂತರ ಉಳಿಯುವ ಹಿಂಡಿಯನ್ನು ಉತ್ತಮ ಸಾವಯವ ಗೊಬ್ಬರವಾಗಿ ಮಾರಿ."},
+        {"name": "ಶೇಂಗಾ ಸಿಪ್ಪೆ ಬ್ರಿಕೆಟ್", "income": "ಇಂಧನ ಮೌಲ್ಯ", "how": "ತ್ಯಾಜ್ಯ ಸಿಪ್ಪೆಯನ್ನು ಯಂತ್ರದ ಮೂಲಕ ಇಂಧನ ಕಡ್ಡಿಗಳನ್ನಾಗಿ ಮಾಡಿ ಕಾರ್ಖಾಣೆಗಳಿಗೆ ಪೂರೈಸಿ."},
+        {"name": "ಜೇನು ಸಾಕಣೆ", "income": "ಶುದ್ಧ ಜೇನಿನ ಲಾಭ", "how": "ತೋಟದ ಸುತ್ತ ಜೇನು ಪೆಟ್ಟಿಗೆ ಇಟ್ಟು ಜೇನು ಸಂಗ್ರಹಿಸಿ ಔಷಧೀಯ ರೂಪದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಸೀತಾಫಲ ಹಣ್ಣಿನ ಪಲ್ಪ್", "income": "ಮೌಲ್ಯವರ್ಧನೆ", "how": "ಸೀಸನಲ್ ಹಣ್ಣಿನ ಗರ್ಭ ಶೈತ್ಯೀಕರಿಸಿ ಐಸ್ ಕ್ರೀಮ್ ತಯಾರಕರಿಗೆ ಸಗಟು ದರದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಹಟ್ಟಿ ಗೊಬ್ಬರ ಪ್ಯಾಕೇಜಿಂಗ್", "income": "ನಗರದ ಬೇಡಿಕೆ", "how": "ಸಂಸ್ಕರಿಸಿದ ಗೊಬ್ಬರವನ್ನು 5kg ಚೀಲಗಳಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ನಗರದ ನರ್ಸರಿಗಳಿಗೆ ನೀಡಿ."},
+        {"name": "ಕೃಷಿ ಪ್ರವಾಸೋದ್ಯಮ", "income": "ವಾರಾಂತ್ಯದ ಆದಾಯ", "how": "ನಗರದ ಜನರಿಗೆ ಹಳ್ಳಿ ಊಟ, ಎತ್ತಿನ ಗಾಡಿ ಸವಾರಿ ಮತ್ತು ತೋಟದ ವೀಕ್ಷಣೆ ಪ್ಯಾಕೇಜ್ ನೀಡಿ."},
+        {"name": "ತೊಗರಿ ಬೇಳೆ ಮಿಲ್ಲಿಂಗ್", "income": "ನೇರ ಮಾರುಕಟ್ಟೆ ಲಾಭ", "how": "ಬೇಳೆ ಮಿಲ್ ಮಾಡಿ ನಿಮ್ಮದೇ ಬ್ರಾಂಡ್ ಹೆಸರಿನಲ್ಲಿ ಪ್ಯಾಕ್ ಮಾಡಿ ಸಗಟು ದರಕ್ಕಿಂತ ಹೆಚ್ಚು ಲಾಭ ಪಡೆಯಿರಿ."},
+        {"name": "ಒಣ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ", "income": "ಮನೆಬಳಕೆಯ ಉತ್ಪನ್ನ", "how": "ಶುದ್ಧ ಮೆಣಸಿನಕಾಯಿ ಪುಡಿ ಮಾಡಿ ಚಿಕ್ಕ ಪ್ಯಾಕೆಟ್ ಗಳ ಮೂಲಕ ಸ್ಥಳೀಯವಾಗಿ ಮಾರಿ."},
+        {"name": "ಅಜೋಲ್ಲಾ ಮೇವು ಬೆಳೆ", "income": "ವೆಚ್ಚ ಉಳಿತಾಯ", "how": "ದನಕರುಗಳಿಗೆ ಪೌಷ್ಟಿಕ ಹಸಿರು ಮೇವಾಗಿ ಬಳಸಿ ಹೊರಗಿನ ಆಹಾರದ ವೆಚ್ಚವನ್ನು ಕಡಿತಗೊಳಿಸಿ."},
+        {"name": "ಎರೆಹುಳು ಗೊಬ್ಬರ", "income": "ಪರಿಸರ ಸ್ನೇಹಿ ಲಾಭ", "how": "ವರ್ಮಿಕಾಂಪೋಸ್ಟ್ ಯುನಿಟ್ ಸ್ಥಾಪಿಸಿ ಗೊಬ್ಬರ ಮತ್ತು ಎರೆಹುಳುಗಳನ್ನು ಮಾರಾಟ ಮಾಡಿ."},
+        {"name": "ಸಿರಿಧಾನ್ಯದ ಹಪ್ಪಳ", "income": "ಮನೆಯಿಂದ ಆದಾಯ", "how": "ರಾಗಿ ಅಥವಾ ನವಣೆ ಹಪ್ಪಳ ತಯಾರಿಸಿ ಸೂಪರ್ ಮಾರ್ಕೆಟ್ ಮತ್ತು ಸಂತೆಗಳಲ್ಲಿ ಪೂರೈಸಿ."},
+        {"name": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು (Besan)", "income": "ದೈನಂದಿನ ಮಾರಾಟ", "how": "ಕಡ್ಲೆಬೇಳೆ ಹಿಟ್ಟು ತಯಾರಿಸಿ ಬೇಕರಿ ಮತ್ತು ಬಜ್ಜಿ ಅಂಗಡಿಗಳಿಗೆ ಪ್ರತಿದಿನ ಪೂರೈಸಿ."}
     ]
 }
 
 json_data = json.dumps(recommendation_data)
 
-# 4. HTML/CSS/JS
+# 4. Integrated HTML/CSS/JS
 html_code = f"""
 <!DOCTYPE html>
 <html lang="kn">
@@ -66,11 +87,11 @@ html_code = f"""
                         url('data:image/jpeg;base64,{welcome_bg}');
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; color: white;
-            text-align: center;
+            text-align: center; padding: 20px;
         }}
 
         #sidebar {{ width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; }}
-        .nav-link {{ padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: white; text-decoration: none; }}
+        .nav-link {{ padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: white; text-decoration: none; transition: 0.3s; }}
         .nav-link.active {{ background: var(--accent); font-weight: bold; }}
 
         .content-section {{ flex: 1; display: none; flex-direction: column; overflow-y: auto; width: 100%; }}
@@ -82,29 +103,37 @@ html_code = f"""
             background-size: cover; background-position: center;
         }}
 
-        .main-btn {{ background: var(--accent); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }}
+        .main-btn {{ background: var(--accent); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }}
+        .main-btn:hover {{ transform: scale(1.05); }}
         
+        .back-btn {{ 
+            background: white; color: var(--primary); border: 2px solid var(--primary); 
+            padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; 
+            margin: 20px; align-self: flex-start; transition: 0.3s;
+        }}
+        .back-btn:hover {{ background: var(--primary); color: white; }}
+
         .arya-avatar {{ position: fixed; bottom: 30px; right: 30px; width: 110px; display: none; z-index: 3000; cursor: pointer; }}
         .arya-avatar img {{ width: 100%; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4)); border-radius: 50%; border: 3px solid white; }}
         
         #arya-chat-box {{ position: fixed; bottom: 150px; right: 35px; background: white; padding: 18px; border-radius: 15px; display: none; width: 260px; z-index: 3001; color: #333; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }}
 
-        .guide-box {{ background: white; margin: 20px 40px; padding: 25px; border-radius: 15px; border-left: 8px solid var(--accent); }}
+        .guide-box {{ background: white; margin: 15px 40px; padding: 25px; border-radius: 15px; border-left: 8px solid var(--accent); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }}
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <h1 style="font-size: 4rem; margin: 0;">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
+        <h1 style="font-size: 3rem; margin: 0; max-width: 800px;">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
         <p style="font-size: 1.5rem; margin-top: 20px; margin-bottom: 40px;">ಕೃಷಿ ಮತ್ತು ಜೀವನೋಪಾಯದ ಸಮಗ್ರ ಸಲಹೆಗಾರ</p>
         <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
 
     <nav id="sidebar">
         <h2 style="padding-left:10px; margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
-        <div class="nav-link active" onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <div class="nav-link" onclick="showSection('weather-page', 'ಹವಾಮಾನ')">☁️ ಹವಾಮಾನ</div>
-        <div class="nav-link" onclick="showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+        <div class="nav-link active" id="link-dashboard" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <div class="nav-link" id="link-weather" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" id="link-roi" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
     </nav>
 
     <div id="arya-chat-box"></div>
@@ -120,12 +149,14 @@ html_code = f"""
     </main>
 
     <div id="weather-page" class="content-section">
-        <div style="background:var(--primary); color:white; padding:60px; text-align:center;"><h1>ಹವಾಮಾನ ಮಾಹಿತಿ</h1></div>
-        <div id="weather-full" style="padding:40px;"></div>
+        <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಹವಾಮಾನ ಮಾಹಿತಿ</h1></div>
+        <div id="weather-full" style="padding:20px;"></div>
     </div>
 
     <div id="roi-page" class="content-section">
-        <div style="background:var(--primary); color:white; padding:60px; text-align:center;"><h1>ಜೀವನೋಪಾಯದ ಮಾರ್ಗಗಳು</h1></div>
+        <button class="back-btn" onclick="showSection('dashboard')">← ಹಿಂದೆ ಹೋಗಿ (Back)</button>
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center;"><h1>ಜೀವನೋಪಾಯದ ಮಾರ್ಗಗಳು</h1></div>
         <div id="roi-full" style="padding:20px;"></div>
     </div>
 
@@ -145,23 +176,32 @@ html_code = f"""
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('sidebar').style.display = 'flex';
             document.getElementById('arya-bot').style.display = 'block';
-            showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್');
+            showSection('dashboard');
         }}
 
-        function showSection(sectionId, navText) {{
+        function showSection(sectionId) {{
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
             document.getElementById(sectionId).style.display = 'flex';
+            
+            // Handle active state for sidebar links
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if(sectionId === 'dashboard') document.getElementById('link-dashboard').classList.add('active');
+            if(sectionId === 'weather-page') document.getElementById('link-weather').classList.add('active');
+            if(sectionId === 'roi-page') document.getElementById('link-roi').classList.add('active');
         }}
 
         function getAdvice() {{
             document.getElementById('weather-full').innerHTML = `<div class="guide-box">${{appData.weather}}</div>`;
             const optionsHtml = appData.options.map(o => `
                 <div class="guide-box">
-                    <b>${{o.name}}</b><br><span>💰 ${{o.income}}</span><br><p>${{o.how}}</p>
+                    <b style="font-size: 1.2rem; color: var(--primary);">${{o.name}}</b><br>
+                    <span>💰 ${{o.income}}</span><br>
+                    <p>${{o.how}}</p>
                 </div>
             `).join("");
             document.getElementById('roi-full').innerHTML = optionsHtml;
-            showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು');
+            showSection('roi-page');
+            showBubble("ನಿಮಗಾಗಿ ಹೊಸ ಮಾಹಿತಿ ಸಿದ್ಧವಾಗಿದೆ!");
         }}
     </script>
 </body>
