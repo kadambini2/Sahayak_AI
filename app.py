@@ -90,6 +90,14 @@ html_code = f"""
             text-align: center; padding: 20px;
         }}
 
+        .welcome-title {{
+            font-size: 2.8vw;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: bold;
+            max-width: 95%;
+        }}
+
         #sidebar {{ width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; }}
         .nav-link {{ padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; color: white; text-decoration: none; transition: 0.3s; }}
         .nav-link.active {{ background: var(--accent); font-weight: bold; }}
@@ -97,7 +105,7 @@ html_code = f"""
         .content-section {{ flex: 1; display: none; flex-direction: column; overflow-y: auto; width: 100%; }}
         
         .hero {{ 
-            padding: 100px 20px; text-align: center; color: white;
+            padding: 80px 20px; text-align: center; color: white;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('data:image/jpeg;base64,{hero_bg}');
             background-size: cover; background-position: center;
@@ -106,6 +114,14 @@ html_code = f"""
         .main-btn {{ background: var(--accent); color: white; border: none; padding: 18px 45px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }}
         .main-btn:hover {{ transform: scale(1.05); }}
         
+        .card-container {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 40px; }}
+        .floating-card {{ 
+            background: white; padding: 25px; border-radius: 15px; text-align: center; 
+            cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            border-top: 5px solid var(--accent); transition: 0.3s; 
+        }}
+        .floating-card:hover {{ transform: translateY(-10px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }}
+
         .back-btn {{ 
             background: white; color: var(--primary); border: 2px solid var(--primary); 
             padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; 
@@ -124,7 +140,7 @@ html_code = f"""
 <body>
 
     <div id="welcome-screen">
-        <h1 style="font-size: 3rem; margin: 0; max-width: 800px;">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
+        <h1 class="welcome-title">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
         <p style="font-size: 1.5rem; margin-top: 20px; margin-bottom: 40px;">ಕೃಷಿ ಮತ್ತು ಜೀವನೋಪಾಯದ ಸಮಗ್ರ ಸಲಹೆಗಾರ</p>
         <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
@@ -143,8 +159,20 @@ html_code = f"""
 
     <main id="dashboard" class="content-section">
         <div class="hero">
-            <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ</h1>
+            <h1>ಮಾಹಿತಿಗಾಗಿ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಅಥವಾ ಆಯ್ಕೆ ಮಾಡಿ</h1>
             <button class="main-btn" onclick="getAdvice()">🎤 ಮಾಹಿತಿ ಪಡೆಯಿರಿ</button>
+        </div>
+        <div class="card-container">
+            <div class="floating-card" onclick="showSection('weather-page')">
+                <h2 style="margin:0;">☁️</h2>
+                <h3>ಹವಾಮಾನ ವರದಿ</h3>
+                <p>ಇಂದಿನ ವಾತಾವರಣದ ಬಗ್ಗೆ ತಿಳಿಯಿರಿ</p>
+            </div>
+            <div class="floating-card" onclick="getAdvice()">
+                <h2 style="margin:0;">💰</h2>
+                <h3>ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
+                <p>ಹೆಚ್ಚುವರಿ ಲಾಭ ಗಳಿಸುವ ದಾರಿ</p>
+            </div>
         </div>
     </main>
 
@@ -183,7 +211,6 @@ html_code = f"""
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
             document.getElementById(sectionId).style.display = 'flex';
             
-            // Handle active state for sidebar links
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             if(sectionId === 'dashboard') document.getElementById('link-dashboard').classList.add('active');
             if(sectionId === 'weather-page') document.getElementById('link-weather').classList.add('active');
