@@ -3,99 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಸಹಾಯಕ AI</title>
+    <title>ಸಹಾಯಕ AI - ಹವಾಮಾನ ಸ್ಥಿತಿಸ್ಥಾಪಕ ಜೀವನೋಪಾಯ ಯೋಜಕ</title>
     <style>
-        :root { --primary: #1b5e20; --accent: #ff9800; --bg: #f4f7f4; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: var(--bg); overflow: hidden; }
+        :root { --primary: #1b5e20; --accent: #ff9800; --bg: #f4f7f4; --text: #333; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: var(--bg); overflow: hidden; color: var(--text); }
 
-        /* Welcome Page Overlay */
-        #welcome-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600');
-            background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; z-index: 2000; color: white;
-        }
-
-        /* Sidebar UI */
+        /* Sidebar UI - Fixed */
         #sidebar { width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; box-shadow: 4px 0 15px rgba(0,0,0,0.2); }
-        .nav-link { padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; transition: 0.3s; color: white; }
+        .nav-link { padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; transition: 0.3s; text-decoration: none; color: white; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); }
         .nav-link.active { background: var(--accent); font-weight: bold; }
 
-        /* Dashboard & Floating Boxes Grid */
-        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; }
-        .hero {
-            padding: 60px 20px; text-align: center; color: white;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                        url('https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&w=1600');
+        /* Dashboard and Main Sections */
+        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding-bottom: 50px; }
+        
+        /* Updated Hero: Replaced Cycle with Farmer Image */
+        .hero { 
+            padding: 60px 20px; text-align: center; color: white; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1628151527788-2970a2f447f2?q=80&w=1600'); 
             background-size: cover; background-position: center;
         }
 
-        /* 3 Floating Cards Grid */
-        .card-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 40px; }
-        
-        /* Floating Card Style and Animation */
-        .card { 
-            background: white; padding: 25px; border-radius: 20px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-top: 6px solid var(--accent); 
-            text-align: center; cursor: pointer; 
-            transition: 0.4s ease; /* For smooth hover */
-            position: relative;
-            animation: floatBoxes 4s ease-in-out infinite; /* Automatic floating */
-        }
-
-        /* Float boxes continuously */
-        @keyframes floatBoxes {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); } /* Move up */
-            100% { transform: translateY(0px); }
-        }
-
-        /* Delay the float for each card slightly */
-        .card:nth-child(1) { animation-delay: 0s; }
-        .card:nth-child(2) { animation-delay: 0.5s; }
-        .card:nth-child(3) { animation-delay: 1s; }
-
-        /* Hover effect still present for interaction */
-        .card:hover { transform: translateY(-15px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-
-        /* Result View */
-        #roi-page { padding: 0; }
-        #roi-full { padding: 40px; }
-        .guide-box { background: white; margin-bottom: 15px; padding: 25px; border-radius: 15px; border-left: 6px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-
-        /* Arya Agent UI (unchanged) */
-        .arya-container { position: fixed; bottom: 20px; right: 20px; display: none; flex-direction: column; align-items: flex-end; z-index: 3000; }
-        #arya-chat-box { 
-            background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            margin-bottom: 10px; width: 250px; font-size: 0.9rem; border: 1px solid #ddd; display: none; 
-            position: relative; animation: slideUp 0.3s ease; line-height: 1.6;
-        }
-        #arya-chat-box::after { content: ''; position: absolute; bottom: -10px; right: 30px; border-width: 10px 10px 0; border-style: solid; border-color: white transparent; }
-        .arya-avatar { width: 80px; height: 80px; background: white; border-radius: 50%; border: 3px solid var(--accent); cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; }
-        .arya-avatar:hover { transform: scale(1.05); }
-
-        .main-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .main-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 1rem; }
         .main-btn:hover { background: #e68a00; }
-        
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Card Grid - Fixed */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px; }
+        .card { background: white; padding: 25px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 6px solid var(--accent); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .card h3 { color: var(--primary); margin-bottom: 10px; }
+
+        /* Arya Assistant Bot and Bubble */
+        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 85px; height: 85px; background: white; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; z-index: 3000; cursor: pointer; border: 3px solid var(--accent); }
+        .arya-avatar img { width: 100%; object-fit: cover; border-radius: 50%; }
+        #arya-chat-box { position: fixed; bottom: 115px; right: 25px; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; width: 240px; z-index: 3001; line-height: 1.6; }
+        #arya-chat-box::after { content: ''; position: absolute; bottom: -10px; right: 30px; border-width: 10px 10px 0; border-style: solid; border-color: white transparent; }
+
+        /* Detail View UI */
+        .guide-box { background: white; margin-bottom: 15px; padding: 25px; border-radius: 15px; border-left: 6px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <div id="welcome-screen">
-        <h1 style="font-size: 2.5rem; margin-bottom: 20px;">ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
+    <div id="welcome-screen" style="position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; z-index:4000;">
+        <h1 style="font-size: 3rem; margin-bottom: 20px;">ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
         <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
 
     <nav id="sidebar">
-        <h2 style="padding-left:10px; margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
-        <div class="nav-link active">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <div class="nav-link">☁️ ಹವಾಮಾನ</div>
-        <div class="nav-link">🌱 ಬೆಳೆ ಸಲಹೆ</div>
-        <div class="nav-link" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+        <h2 style="padding-left:15px; margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
+        <div class="nav-link active" onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <div class="nav-link" onclick="showSection('weather-page', 'ಹವಾಮಾನ')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" onclick="showSection('crop-page', 'ಬೆಳೆ ಸಲಹೆ')">🌱 ಬೆಳೆ ಸಲಹೆ</div>
+        <div class="nav-link" onclick="showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು')">💰 20+ ಆದಾಯ ಮಾರ್ಗಗಳು</div>
     </nav>
+
+    <div id="arya-chat-box"></div>
+    <div id="arya-bot" class="arya-avatar" onclick="aryaBotGreet()">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Arya AI">
+    </div>
 
     <main id="dashboard" class="content-section">
         <div class="hero">
@@ -104,76 +71,92 @@
         </div>
         
         <div class="card-container">
-            <div class="card">
+            <div class="card" onclick="showSection('weather-page', 'ಹವಾಮಾನ')">
                 <h3>☁️ ಹವಾಮಾನ</h3>
                 <p>ಸ್ಥಿತಿಗತಿ ತಿಳಿಯಲು ಕ್ಲಿಕ್ ಮಾಡಿ</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="showSection('crop-page', 'ಬೆಳೆ ಸಲಹೆ')">
                 <h3>🌱 ಬೆಳೆ ಸಲಹೆ</h3>
                 <p>ಉತ್ತಮ ಇಳುವರಿಗಾಗಿ ಮಾಹಿತಿ</p>
             </div>
-            <div class="card" onclick="showSection('roi-page')">
+            <div class="card" onclick="showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು')">
                 <h3>💰 ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
                 <p>25+ ಯೋಜನೆಗಳು ಲಭ್ಯ</p>
             </div>
         </div>
     </main>
 
-    <div id="roi-page" class="content-section">
-        <div style="background:var(--primary); color:white; padding:30px; text-align:center;">
-            <button onclick="showSection('dashboard')" style="float:left; color:white; background:none; border:none; font-size:1.5rem; cursor:pointer; margin-top:5px;">← ಹಿಂತಿರುಗಿ</button>
-            <h1>ಆದಾಯದ ಹಾದಿ (Livelihood Options)</h1>
+    <div id="weather-page" class="content-section">
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center; position:relative;">
+            <button onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')" style="position:absolute; left:20px; top:40px; background:white; color:var(--primary); border:none; padding:10px; border-radius:5px; cursor:pointer;">← ಹಿಂತಿರುಗಿ</button>
+            <h1>ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ</h1>
         </div>
-        <div id="roi-full"></div>
+        <div id="weather-full" style="padding:40px;">ಮಾಹಿತಿಗಾಗಿ ಮೈಕ್ ಬಟನ್ ಬಳಸಿ.</div>
     </div>
 
-    <div class="arya-container" id="arya-ui">
-        <div id="arya-chat-box"></div>
-        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" class="arya-avatar" onclick="aryaBotGreet()">
+    <div id="crop-page" class="content-section">
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center; position:relative;">
+            <button onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')" style="position:absolute; left:20px; top:40px; background:white; color:var(--primary); border:none; padding:10px; border-radius:5px; cursor:pointer;">← ಹಿಂತಿರುಗಿ</button>
+            <h1>ಬೆಳೆ ಸಲಹೆ ಮತ್ತು ತಂತ್ರಗಳು</h1>
+        </div>
+        <div style="padding:40px;">ನಿಮ್ಮ ಮಣ್ಣಿಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆಗಳ ಪಟ್ಟಿ ಶೀಘ್ರದಲ್ಲೇ ಲಭ್ಯವಾಗಲಿದೆ. ಮೈಕ್ ಬಟನ್ ಬಳಸಿ ಹವಾಮಾನ ಮತ್ತು ಆದಾಯದ ಬಗ್ಗೆ ಮಾಹಿತಿಯನ್ನು ಪಡೆಯಿರಿ.</div>
+    </div>
+
+    <div id="roi-page" class="content-section">
+        <div style="background:var(--primary); color:white; padding:40px; text-align:center; position:relative;">
+            <button onclick="showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')" style="position:absolute; left:20px; top:40px; background:white; color:var(--primary); border:none; padding:10px; border-radius:5px; cursor:pointer;">← ಹಿಂತಿರುಗಿ</button>
+            <h1>20+ ಆದಾಯ ಮಾರ್ಗಗಳು</h1>
+        </div>
+        <div id="roi-full" style="padding:40px;">ಮಾಹಿತಿಗಾಗಿ ಮೈಕ್ ಬಟನ್ ಬಳಸಿ.</div>
     </div>
 
     <script>
-        // Speech & Chat Box Logic
-        function speak(text) {
-            window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(text);
-            msg.lang = 'kn-IN';
-            msg.rate = 1.0; 
-            msg.pitch = 1.0; // Standard AI agent pitch
+        let isSpeaking = false;
 
-            // Display chat bubble with text
+        // FIXED: Shows the correct section and updates the active link in the sidebar
+        function showSection(sectionId, navText) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            // Show target section
+            document.getElementById(sectionId).style.display = 'flex';
+            
+            // Update Sidebar active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.innerText.includes(navText)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Updated for only text box (no speech)
+        function showTextBubble(text, duration = 4000) {
             const box = document.getElementById('arya-chat-box');
             box.innerText = text;
             box.style.display = 'block';
-            
-            window.speechSynthesis.speak(msg);
-            msg.onend = () => { setTimeout(() => { box.style.display = 'none'; }, 4000); };
+            setTimeout(() => { box.style.display = 'none'; }, duration);
         }
 
         function aryaBotGreet() {
-            speak("ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ನಿಮ್ಮ ಹೊಲದ ಮಾಹಿತಿ ಅಥವಾ ಹೊಸ ಆದಾಯದ ದಾರಿಗಳ ಬಗ್ಗೆ ಏನಾದರೂ ತಿಳಿಯಬೇಕಿದ್ದರೆ ಈ ಮಾಹಿತಿ ಪಡೆಯುವ ಬಟನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.");
+            showTextBubble("ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ನಿಮಗೆ ಯಾವ ಮಾಹಿತಿ ಬೇಕು?");
         }
 
         function startApp() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('sidebar').style.display = 'flex';
-            document.getElementById('arya-ui').style.display = 'flex';
-            showSection('dashboard');
-            speak("ಸಹಾಯಕ-AI ಗೆ ಸ್ವಾಗತ. ನಾನು ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಕೃಷಿ ಸಲಹೆಗಾರ್ತಿ ಆರ್ಯ. ನಿಮಗೆ ಯಾವ ಮಾಹಿತಿ ಬೇಕು?");
-        }
-
-        function showSection(id) {
-            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'flex';
+            document.getElementById('arya-bot').style.display = 'block';
+            showSection('dashboard', 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್');
+            showTextBubble("ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ. ನಾನು ಆರ್ಯ.");
         }
 
         async function getAdvice() {
-            speak("ಖಂಡಿತ, ನಾನು ನಿಮಗಾಗಿ ಇಪ್ಪತ್ತೈದಕ್ಕೂ ಹೆಚ್ಚು ಆದಾಯದ ಮಾರ್ಗಗಳನ್ನು ಸಿದ್ಧಪಡಿಸುತ್ತಿದ್ದೇನೆ, ದಯವಿಟ್ಟು ಈ ಪಟ್ಟಿಯನ್ನು ಗಮನಿಸಿ...");
-            
+            showTextBubble("ಮಾಹಿತಿಯನ್ನು ಸಿದ್ಧಪಡಿಸುತ್ತಿದ್ದೇನೆ...");
             const res = await fetch('/api/recommend');
             const data = await res.json();
-
-            // Populate the detailed list using data.options and mapping to 'o.how' correctly
+            
+            document.getElementById('weather-full').innerHTML = `<div class="guide-box">${data.weather}</div>`;
+            
+            // Fixed the display error by ensuring it pulls from o.how
             document.getElementById('roi-full').innerHTML = data.options.map(o => `
                 <div class="guide-box">
                     <b style="color:var(--primary); font-size:1.1rem;">${o.name}</b><br>
@@ -182,8 +165,8 @@
                 </div>
             `).join("");
 
-            showSection('roi-page');
-            speak("ನಿಮಗಾಗಿ ವಿವರವಾದ ಮಾಹಿತಿ ಸಿದ್ಧವಾಗಿದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ.");
+            showSection('roi-page', 'ಆದಾಯ ಮಾರ್ಗಗಳು');
+            showTextBubble("ನಿಮಗಾಗಿ ವಿವರವಾದ ಪಟ್ಟಿ ಸಿದ್ಧವಾಗಿದೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ.");
         }
     </script>
 </body>
