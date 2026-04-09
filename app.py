@@ -106,7 +106,7 @@ html_code = f"""
 <body>
 
     <div id="welcome-screen">
-        <h1 style="font-size: 4rem; margin: 0;">ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
+        <h1 style="font-size: 4rem; margin: 0;">ನಿಮ್ಮ ಶ್ರಮ, ನಿಮ್ಮ ಬದುಕು – ಹವಾಮಾನ ಪ್ರತಿರೋಧಕ ಜೀವನೋಪಾಯದ ಶಕ್ತಿ!</h1>
         <p style="font-size: 1.5rem; margin-top: 20px; margin-bottom: 40px;">ಕೃಷಿ ಮತ್ತು ಜೀವನೋಪಾಯದ ಸಮಗ್ರ ಸಲಹೆಗಾರ</p>
         <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
