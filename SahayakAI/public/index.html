@@ -6,92 +6,80 @@
     <title>ಸಹಾಯಕ AI - ಹವಾಮಾನ ಸ್ಥಿತಿಸ್ಥಾಪಕ ಜೀವನೋಪಾಯ ಯೋಜಕ</title>
     <style>
         :root { --primary: #1b5e20; --accent: #ff9800; --bg: #f4f7f4; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; background: var(--bg); overflow: hidden; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #333; }
         
-        /* Sidebar */
-        #sidebar { width: 280px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 30px 20px; }
-        .nav-link { padding: 15px; margin: 5px 0; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .nav-link:hover { background: rgba(255,255,255,0.1); }
-
-        /* AI Agent Arya Avatar */
-        #arya-agent {
-            position: fixed; bottom: 20px; right: 20px; width: 100px; height: 100px;
-            background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png'); /* New Agent Icon */
-            background-size: cover; cursor: pointer; z-index: 2000; transition: 0.5s;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
-        }
-        #arya-bubble {
-            position: fixed; bottom: 130px; right: 20px; width: 260px; 
-            background: white; padding: 15px; border-radius: 20px; border: 2px solid var(--primary);
-            display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 2000; font-weight: 500;
-        }
-
-        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; }
-        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 30px; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; border-top: 5px solid var(--accent); }
+        /* Layout */
+        .sidebar { width: 280px; background: var(--primary); color: white; position: fixed; height: 100vh; display: none; flex-direction: column; padding: 20px; }
+        .main-content { margin: 0; padding: 20px; transition: 0.3s; }
         
-        .detail-header { background: var(--primary); color: white; padding: 30px; text-align: center; position: relative; }
-        .back-btn { position: absolute; left: 20px; top: 30px; background: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-        .guide-box { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-top: 10px; border-left: 4px solid var(--primary); }
+        /* Dashboard Home */
+        .welcome-hero { background: white; padding: 60px 20px; text-align: center; border-radius: 20px; margin-bottom: 30px; }
+        .welcome-hero h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 10px; }
+        .orange-btn { background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(255,152,0,0.3); }
+
+        /* Dashboard Cards */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+
+        /* AI Avatar Arya */
+        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 80px; height: 80px; background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center; background-size: contain; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); cursor: pointer; }
+        .arya-bubble { position: fixed; bottom: 110px; right: 20px; background: white; padding: 15px; border-radius: 15px; border: 2px solid var(--primary); display: none; width: 250px; font-weight: 500; }
+
+        /* Guide Item UI */
+        .guide-box { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--primary); }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="arya-bubble">ನಮಸ್ಕಾರ! ನಾನು ಆರ್ಯ. ಮಾಹಿತಿಗಾಗಿ ಮೈಕ್ ಬಟನ್ ಒತ್ತಿ.</div>
-    <div id="arya-agent" onclick="speakText('ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ನಿಮ್ಮ ಕೃಷಿ ಸಲಹೆಗಾರ್ತಿ. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?')"></div>
+    <div id="arya-bubble" class="arya-bubble">ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ.</div>
+    <div class="arya-avatar" onclick="speakText('ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?')"></div>
 
-    <nav id="sidebar">
-        <h2 style="padding-left:15px">ಆರ್ಯ AI</h2>
-        <div class="nav-link" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <div class="nav-link" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
-        <div class="nav-link" onclick="showSection('soil-page')">💧 ಮಣ್ಣಿನ ತೇವಾಂಶ</div>
-        <div class="nav-link" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
-    </nav>
-
-    <main id="dashboard" class="content-section" style="display: block; padding-top: 50px;">
-        <div style="text-align: center;">
-            <h1 style="color: var(--primary)">ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
+    <div id="dashboard-view" class="main-content">
+        <div class="welcome-hero">
+            <h1>ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
             <p>ಆರ್ಯ ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಕೃಷಿ ಯೋಜಿಸಿ</p>
-            <button onclick="getAdvice()" style="background: var(--accent); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.2rem; margin-top: 20px;">🎤 ಆರ್ಯನೊಡನೆ ಮಾತನಾಡಿ</button>
+            <button class="orange-btn" onclick="getAdvice()">🎤 ಆರ್ಯನೊಡನೆ ಮಾತನಾಡಿ</button>
         </div>
-        
+
         <div class="card-container">
-            <div class="card" onclick="showSection('weather-page')"><h3>☁️ ಹವಾಮಾನ</h3><p id="weather-brief">ಮಾಹಿತಿಗಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ...</p></div>
-            <div class="card" onclick="showSection('soil-page')"><h3>💧 ಮಣ್ಣಿನ ತೇವಾಂಶ</h3><p>ತೇವಾಂಶ ಸಂರಕ್ಷಣಾ ತಂತ್ರಗಳು.</p></div>
-            <div class="card" onclick="showSection('roi-page')"><h3>💰 25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3><p id="roi-brief">ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ.</p></div>
-        </div>
-    </main>
-
-    <div id="weather-page" class="content-section">
-        <div class="detail-header"><button class="back-btn" onclick="showSection('dashboard')">←</button><h1>ಹವಾಮಾನ ವರದಿ</h1></div>
-        <div id="weather-full" class="detail-body" style="padding: 30px;"></div>
-    </div>
-
-    <div id="soil-page" class="content-section">
-        <div class="detail-header"><button class="back-btn" onclick="showSection('dashboard')">←</button><h1>ಮಣ್ಣಿನ ತೇವಾಂಶ</h1></div>
-        <div class="detail-body" style="padding: 30px;">
-            <h3>ಆರ್ಯ ಅವರ ತಾಂತ್ರಿಕ ಸಲಹೆಗಳು:</h3>
-            <div class="guide-box"><b>1. ಮಲ್ಚಿಂಗ್ (Mulching):</b> ಕೃಷಿ ತ್ಯಾಜ್ಯದಿಂದ ಮಣ್ಣನ್ನು ಮುಚ್ಚುವುದರಿಂದ ನೀರು ಆವಿಯಾಗುವುದನ್ನು ತಡೆಯಬಹುದು.</div>
-            <div class="guide-box"><b>2. ಸಾವಯವ ಗೊಬ್ಬರ:</b> ಮಣ್ಣಿನ ರಚನೆ ಸುಧಾರಿಸಿ ತೇವಾಂಶ ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳುವ ಶಕ್ತಿ ಹೆಚ್ಚಿಸಿ.</div>
-            <div class="guide-box"><b>3. ಮಳೆನೀರು ಕೊಯ್ಲು:</b> ಹೊಲದ ನೀರನ್ನು ಹೊಲದಲ್ಲೇ ಇಂಗಿಸಲು ಬದುಗಳನ್ನು ನಿರ್ಮಿಸಿ.</div>
+            <div class="card" onclick="showROI()">
+                <h3>☁️ ಹವಾಮಾನ</h3>
+                <p id="weather-brief">ಮಾಹಿತಿಗಾಗಿ ಆರ್ಯನನ್ನು ಕೇಳಿ.</p>
+            </div>
+            <div class="card" onclick="showROI()">
+                <h3>💧 ಮಣ್ಣಿನ ತೇವಾಂಶ</h3>
+                <p>ತೇವಾಂಶ ಸಂರಕ್ಷಣಾ ತಂತ್ರಗಳು.</p>
+            </div>
+            <div class="card" onclick="showROI()">
+                <h3>💰 25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
+                <p id="roi-brief">ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ.</p>
+            </div>
         </div>
     </div>
 
-    <div id="roi-page" class="content-section">
-        <div class="detail-header"><button class="back-btn" onclick="showSection('dashboard')">←</button><h1>ಆದಾಯದ ಹಾದಿ</h1></div>
-        <div id="roi-full" class="detail-body" style="padding: 30px;"></div>
+    <div id="results-view" class="main-content hidden" style="padding: 40px;">
+        <button onclick="goHome()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">← ಹಿಂತಿರುಗಿ</button>
+        <h2 style="color: var(--primary)">ಆದಾಯದ ಹಾದಿ</h2>
+        <div id="roi-full"></div>
     </div>
 
     <script>
-        function showSection(id) {
-            document.getElementById('sidebar').style.display = 'flex';
-            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'flex';
+        function goHome() {
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('results-view').classList.add('hidden');
+        }
+
+        function showROI() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('results-view').classList.remove('hidden');
         }
 
         function speakText(text) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'kn-IN';
+            utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
             
             const bubble = document.getElementById('arya-bubble');
@@ -104,18 +92,22 @@
             const res = await fetch('/api/recommend');
             const data = await res.json();
             
+            // Update Dashboard
             document.getElementById('weather-brief').innerText = data.weather;
-            document.getElementById('roi-brief').innerText = data.options.length + " ಮಾರ್ಗಗಳು ಲಭ್ಯವಿವೆ.";
+            document.getElementById('roi-brief').innerText = "25ಕ್ಕೂ ಹೆಚ್ಚು ಆದಾಯದ ಮಾರ್ಗಗಳು ಸಿದ್ಧವಿವೆ.";
 
+            // Update Detailed List (Fixing "undefined" by using o.how)
             document.getElementById('roi-full').innerHTML = data.options.map(o => `
                 <div class="guide-box">
-                    <b style="color:var(--primary)">${o.name}</b><br>
+                    <b style="color: var(--primary)">${o.name}</b><br>
                     <span>💰 ಆದಾಯ: ${o.income}</span><br>
                     <small>💡 <b>ವಿವರ:</b> ${o.how}</small>
                 </div>
             `).join("");
 
-            speakText("ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ಮಾಹಿತಿ ಸಿದ್ಧವಾಗಿದೆ. ನಾನು ನಿಮಗಾಗಿ 25 ಲಾಭದಾಯಕ ಆದಾಯದ ಮಾರ್ಗಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿದ್ದೇನೆ.");
+            // Arya speaks naturally like Gemini
+            const naturalResponse = "ನಮಸ್ಕಾರ, ನಾನು ಆರ್ಯ. ಸಹಾಯಕ ಎ ಐ ಮೂಲಕ ನಿಮ್ಮ ಕೃಷಿ ಮತ್ತು ಜೀವನಕ್ಕೆ ಪೂರಕವಾಗುವಂತಹ ಹಲವು ಆದಾಯದ ಮಾರ್ಗಗಳನ್ನು ನಾನು ಸಿದ್ಧಪಡಿಸಿದ್ದೇನೆ. ಒಮ್ಮೆ ವಿವರವಾಗಿ ಗಮನಿಸಿ.";
+            speakText(naturalResponse);
         }
     </script>
 </body>
