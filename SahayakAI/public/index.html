@@ -11,7 +11,7 @@
         /* Welcome Page Overlay */
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600');
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center;
@@ -25,16 +25,10 @@
         .nav-link.active { background: var(--accent); font-weight: bold; }
 
         /* AI Avatar Arya */
-        .arya-avatar { 
-            position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; 
-            background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center; 
-            background-size: contain; cursor: pointer; z-index: 3000; 
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); display: none; 
-        }
+        .arya-avatar { position: fixed; bottom: 20px; right: 20px; width: 90px; height: 90px; background: url('https://cdn-icons-png.flaticon.com/512/4712/4712109.png') no-repeat center; background-size: contain; cursor: pointer; z-index: 3000; }
 
         /* Main Content */
-        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; padding-bottom: 50px; }
-        
+        .content-section { flex: 1; display: none; flex-direction: column; overflow-y: auto; }
         .hero {
             padding: 60px 20px; text-align: center; color: white;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
@@ -45,34 +39,30 @@
         .main-btn {
             background: var(--accent); color: white; border: none; padding: 18px 45px; 
             border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-top: 15px; transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-top: 15px;
         }
 
-        /* Card UI */
-        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 40px; }
-        .card { 
-            background: white; padding: 30px; border-radius: 20px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 6px solid var(--accent); cursor: pointer;
-        }
-
+        /* Card Container */
+        .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 6px solid var(--accent); cursor: pointer; text-align: center; }
+        
         .guide-box { background: white; margin: 15px 0; padding: 20px; border-radius: 15px; border-left: 5px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <h1>ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 20px;">ಸಹಾಯಕ AI ಗೆ ಸ್ವಾಗತ</p>
+        <h1 style="font-size: 3rem;">ನಿಮ್ಮ ಹೊಲ, ನಿಮ್ಮ ಬದುಕು</h1>
         <button class="main-btn" onclick="startApp()">ಪ್ರಾರಂಭಿಸಿ (Start)</button>
     </div>
 
-    <div id="arya-icon" class="arya-avatar" onclick="aryaClickSpeech()"></div>
+    <div class="arya-avatar" id="arya-icon" style="display:none;" onclick="aryaClick()"></div>
 
     <nav id="sidebar">
-        <h2 style="padding-left: 15px;">ಸಹಾಯಕ AI</h2>
-        <div class="nav-link" id="nav-dashboard" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <div class="nav-link" id="nav-weather" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
-        <div class="nav-link" id="nav-roi" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
+        <h2 style="margin-bottom: 30px;">ಸಹಾಯಕ AI</h2>
+        <div class="nav-link active" onclick="showSection('dashboard')">🏠 ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <div class="nav-link" onclick="showSection('weather-page')">☁️ ಹವಾಮಾನ</div>
+        <div class="nav-link" onclick="showSection('roi-page')">💰 ಆದಾಯ ಮಾರ್ಗಗಳು</div>
     </nav>
 
     <main id="dashboard" class="content-section">
@@ -83,18 +73,18 @@
         <div class="card-container">
             <div class="card" onclick="showSection('weather-page')">
                 <h3>☁️ ಹವಾಮಾನ</h3>
-                <p id="weather-brief">ಮಾಹಿತಿಗಾಗಿ ಆರ್ಯನನ್ನು ಕೇಳಿ...</p>
+                <p id="weather-brief">ಮಾಹಿತಿಗಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ...</p>
             </div>
             <div class="card" onclick="showSection('roi-page')">
-                <h3>💰 25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
-                <p id="roi-brief">ಸಂಪೂರ್ಣ ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ...</p>
+                <h3>💰 20+ ಆದಾಯ ಮಾರ್ಗಗಳು</h3>
+                <p id="roi-brief">ಸಂಪೂರ್ಣ ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ.</p>
             </div>
         </div>
     </main>
 
     <div id="weather-page" class="content-section">
         <div style="background:var(--primary); color:white; padding:40px; text-align:center;">
-            <button onclick="showSection('dashboard')" style="float:left; padding:10px;">←</button>
+            <button onclick="showSection('dashboard')" style="float:left; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">←</button>
             <h1>ಹವಾಮಾನ ವರದಿ</h1>
         </div>
         <div id="weather-full" style="padding:40px;"></div>
@@ -102,36 +92,32 @@
 
     <div id="roi-page" class="content-section">
         <div style="background:var(--primary); color:white; padding:40px; text-align:center;">
-            <button onclick="showSection('dashboard')" style="float:left; padding:10px;">←</button>
-            <h1>25+ ಆದಾಯ ಮಾರ್ಗಗಳು</h1>
+            <button onclick="showSection('dashboard')" style="float:left; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">←</button>
+            <h1>ಆದಾಯದ ಮಾರ್ಗಗಳು</h1>
         </div>
         <div id="roi-full" style="padding:40px;"></div>
     </div>
 
     <script>
-        let lastData = null;
-
         function speakText(text) {
-            window.speechSynthesis.cancel(); 
+            window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'kn-IN';
             utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
 
-        // Arya introduces herself when "Start" is clicked
+        // Arya introduces herself when Start is clicked
         function startApp() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('sidebar').style.display = 'flex';
             document.getElementById('arya-icon').style.display = 'block';
             showSection('dashboard');
-            
-            speakText("ನಮಸ್ಕಾರ, ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ. ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಲಹೆಗಾರ್ತಿ ಆರ್ಯ. ನಿಮಗೆ ಯಾವ ಮಾಹಿತಿ ಬೇಕು?");
+            speakText("ನಮಸ್ಕಾರ, ಸಹಾಯಕ ಎ ಐ ಗೆ ಸ್ವಾಗತ. ನಾನು ಆರ್ಯ. ನಿಮ್ಮ ಕೃಷಿ ಸುಧಾರಿಸಲು ನಾನು ಇಲ್ಲಿದ್ದೇನೆ.");
         }
 
-        // Arya speaks when her icon is clicked
-        function aryaClickSpeech() {
-            speakText("ನಾನು ಆರ್ಯ. ನಿಮ್ಮ ಹೊಲದ ಹವಾಮಾನ ಮತ್ತು ಆದಾಯದ ಮಾರ್ಗಗಳ ಬಗ್ಗೆ ತಿಳಿಯಲು ಮಾಹಿತಿ ಬಟನ್ ಒತ್ತಿರಿ.");
+        function aryaClick() {
+            speakText("ಹೇಳಿ, ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?");
         }
 
         function showSection(id) {
@@ -140,16 +126,14 @@
         }
 
         async function getAdvice() {
-            speakText("ಖಂಡಿತ, ನಾನು ನಿಮಗಾಗಿ ಇಪ್ಪತ್ತೈದಕ್ಕೂ ಹೆಚ್ಚು ಆದಾಯದ ಮಾರ್ಗಗಳನ್ನು ಸಿದ್ಧಪಡಿಸಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ಗಮನಿಸಿ.");
-            
+            speakText("ಖಂಡಿತ, ನಾನು ನಿಮಗಾಗಿ ಆದಾಯದ ಮಾರ್ಗಗಳನ್ನು ಹುಡುಕುತ್ತಿದ್ದೇನೆ.");
             const res = await fetch('/api/recommend');
             const data = await res.json();
-            lastData = data;
 
             document.getElementById('weather-brief').innerText = data.weather;
             document.getElementById('weather-full').innerHTML = `<div class="guide-box">${data.weather}</div>`;
             
-            // Fixes "undefined" by using 'o.how'
+            // Fixes "undefined" by using o.how
             document.getElementById('roi-full').innerHTML = data.options.map(o => `
                 <div class="guide-box">
                     <b style="color:var(--primary);">${o.name}</b><br>
@@ -159,6 +143,7 @@
             `).join("");
 
             showSection('roi-page');
+            speakText("ನಿಮಗಾಗಿ ಆದಾಯದ ಮಾರ್ಗಗಳ ಪಟ್ಟಿ ಸಿದ್ಧವಾಗಿದೆ. ಗಮನಿಸಿ.");
         }
     </script>
 </body>
